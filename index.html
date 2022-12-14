@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joseph V. Casillas">
+<meta name="dcterms.date" content="2022-12-14">
+
+<title>Webscraping 101</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="index_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="index_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#getting-text-from-a-website" id="toc-getting-text-from-a-website" class="nav-link" data-scroll-target="#getting-text-from-a-website">Getting text from a website</a>
+  <ul class="collapse">
+  <li><a href="#don-quijote" id="toc-don-quijote" class="nav-link" data-scroll-target="#don-quijote">Don Quijote</a></li>
+  <li><a href="#point-shooters" id="toc-point-shooters" class="nav-link" data-scroll-target="#point-shooters">3-point shooters</a></li>
+  </ul></li>
+  <li><a href="#scraping-tables" id="toc-scraping-tables" class="nav-link" data-scroll-target="#scraping-tables">Scraping tables</a>
+  <ul class="collapse">
+  <li><a href="#phoenix-suns-2022-2023-data" id="toc-phoenix-suns-2022-2023-data" class="nav-link" data-scroll-target="#phoenix-suns-2022-2023-data">Phoenix Suns 2022-2023 data</a></li>
+  </ul></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping up</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Webscraping 101</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joseph V. Casillas </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 14, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>In this brief tutorial I will walk through the basics of getting information from the internet (webscraping) and into R. Let’s start by loading the packages we’ll need:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rvest"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"stringr"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"forcats"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"kableExtra"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggimage"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cleaner plotting theme</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The important one of the group is <code>rvest</code>. This package provides several functions we’ll use to obtain html and parse it to text. Then we can do whatever we want with it, like put it in a dataframe.</p>
+</section>
+<section id="getting-text-from-a-website" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="getting-text-from-a-website">Getting text from a website</h2>
+<section id="don-quijote" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="don-quijote">Don Quijote</h3>
+<p>So, now we need to find something from the internet that we want to get into R. Let’s start with some text. Why not Don Quijote? It turns out the first and second parts are available online here: <a href="https://www.gutenberg.org/files/2000/2000-h/2000-h.htm" class="uri">https://www.gutenberg.org/files/2000/2000-h/2000-h.htm</a>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can find Don Quijote online at many different websites, but I like this one because you can get the entire thing in a single page.</p>
+</div></div><p>Perhaps we have questions like <em>how many words are in the novel?</em> or <em>what words are most common?</em> This is how we could go about answering these questions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url_quijote <span class="ot">&lt;-</span> <span class="st">"https://www.gutenberg.org/files/2000/2000-h/2000-h.htm"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>quijote <span class="ot">&lt;-</span> url_quijote <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>quijote</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{html_document}
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es"&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html;charset=utf-8" ...
+[2] &lt;body&gt;\r\n\r\n&lt;div style="text-align:center; font-size:1.2em; font-weight ...</code></pre>
+</div>
+</div>
+<p><br> First, we assign the url to an object (<code>url_quijote</code>). Next, we pipe the url into the function <code>read_html</code>, the output of which is assigned to the object <code>quijote</code>. We’ll build on this pipe sequence using the <code>quijote</code> object, but we will do it step by step so that it makes sense.</p>
+<p>Notice that the output returned has two lines containing the head and the body of the document. If you have experience with html, this will make perfect sense. If not, don’t worry too much about that. The important thing to know is that we want what’s in the body portion of the document.</p>
+<p>Now we will pipe the <code>quijote</code> object into the <code>html_elements</code> function. This is the real workhorse (imo) of <code>rvest</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>quijote <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"p"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (5054)}
+ [1] &lt;p&gt;Yo, Juan Gallo de Andrada, escribano de Cámara del Rey nuestro señor, ...
+ [2] &lt;p&gt;Juan Gallo de Andrada.&lt;/p&gt;
+ [3] &lt;p&gt;Este libro no tiene cosa digna que no corresponda a su original; en\r ...
+ [4] &lt;p&gt;El licenciado Francisco Murcia de la Llana.&lt;/p&gt;
+ [5] &lt;p&gt;Por cuanto por parte de vos, Miguel de Cervantes, nos fue fecha relac ...
+ [6] &lt;p&gt;YO, EL REY.&lt;/p&gt;
+ [7] &lt;p&gt;Por mandado del Rey nuestro señor:&lt;/p&gt;
+ [8] &lt;p&gt;Juan de Amezqueta.&lt;/p&gt;
+ [9] &lt;p&gt;marqués de Gibraleón, conde de Benalcázar y Bañares, vizconde de La P ...
+[10] &lt;p&gt;En fe del buen acogimiento y honra que hace Vuestra Excelencia a toda ...
+[11] &lt;p&gt;Miguel de Cervantes Saavedra.&lt;/p&gt;
+[12] &lt;p&gt;Desocupado lector: sin juramento me podrás creer que quisiera que est ...
+[13] &lt;p&gt;Sólo quisiera dártela monda y desnuda, sin el ornato de prólogo, ni d ...
+[14] &lt;p&gt;— Porque, ¿cómo queréis vos que no me tenga confuso el qué dirá el an ...
+[15] &lt;p&gt;Oyendo lo cual mi amigo, dándose una palmada en la frente y disparand ...
+[16] &lt;p&gt;— Por Dios, hermano, que agora me acabo de desengañar de un engaño en ...
+[17] &lt;p&gt;— Decid —le repliqué yo, oyendo lo que me decía—: ¿de qué modo pensái ...
+[18] &lt;p&gt;A lo cual él dijo:&lt;/p&gt;
+[19] &lt;p&gt;— Lo primero en que reparáis de los sonetos, epigramas o elogios que  ...
+[20] &lt;p&gt;»En lo de citar en las márgenes los libros y autores de donde sacáred ...
+...</code></pre>
+</div>
+</div>
+<p><br> I put in quotes the letter <code>p</code>. This tells rvest we want to extract all of the elements in the body of the html document with the tag <code>p</code> (paragraph). As you can see from the output, we have printed the first 20 &lt;p&gt; tags. Depending on what you are trying to scrape from a website you will look for different tags (or a combination of tags). This is where scraping can get tricky and having experience with html helps a lot.</p>
+<p>Now we will continue building on our pipe sequence and we will send the above output to the <code>html_text2</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>quijote <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"p"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">max =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Yo, Juan Gallo de Andrada, escribano de Cámara del Rey nuestro señor, de\r los que residen en su Consejo, certifico y doy fe que, habiendo visto por\r los señores dél un libro intitulado El ingenioso hidalgo de la Mancha,\r compuesto por Miguel de Cervantes Saavedra, tasaron cada pliego del dicho\r libro a tres maravedís y medio; el cual tiene ochenta y tres pliegos, que\r al dicho precio monta el dicho libro docientos y noventa maravedís y medio,\r en que se ha de vender en papel; y dieron licencia para que a este precio\r se pueda vender, y mandaron que esta tasa se ponga al principio del dicho\r libro, y no se pueda vender sin ella. Y, para que dello conste, di la\r presente en Valladolid, a veinte días del mes de deciembre de mil y\r seiscientos y cuatro años."
+[2] "Juan Gallo de Andrada."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+[3] "Este libro no tiene cosa digna que no corresponda a su original; en\r testimonio de lo haber correcto, di esta fee. En el Colegio de la Madre de\r Dios de los Teólogos de la Universidad de Alcalá, en primero de diciembre\r de 1604 años."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+[4] "El licenciado Francisco Murcia de la Llana."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+ [ reached getOption("max.print") -- omitted 5050 entries ]</code></pre>
+</div>
+</div>
+<p>The <code>html_text2</code> function extracted all of the text from within the &lt;p&gt; tags! Now, we’ll finish of our pipe sequence by putting the output in a tibble. Normally I would do all of this in one step, like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>quijote <span class="ot">&lt;-</span> url_quijote <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"p"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The object <code>quijote</code> is a tibble with 1 column and 5,054 rows. The sequence <code>\r</code> indicates linebreaks in the text. I am going to clean up and put every word on its own line.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> quijote <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\r</span><span class="st">"</span>),  <span class="co"># remove linebreaks </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">","</span>),   <span class="co"># remove commas </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>), <span class="co"># remove periods</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">";"</span>),   <span class="co"># remove colons</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"-"</span>),   <span class="co"># remove hyphens</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"–"</span>),   <span class="co"># remove en dash</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"—"</span>),   <span class="co"># remove em dash</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">?"</span>), <span class="co"># remove question marks</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">¿"</span>), <span class="co"># remove question marks</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">¡"</span>), <span class="co"># remove exclamation points</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">!"</span>), <span class="co"># remove periods</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_split</span>(value, <span class="st">" "</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">!=</span> <span class="st">""</span>) <span class="co">#%&gt;% pull(value) %&gt;% str_detect("") %&gt;% sum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The above code chunk removes some punctuation we aren’t interested in and creates a data frame of a single column in which every row is a single workd. There are 378754 words! Let’s grab the 50 most common and make a plot.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 50 Most frequent words</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>top_50 <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(value, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>top_50 <span class="sc">%&gt;%</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">fct_reorder</span>(value, prop, max)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> prop)) <span class="sc">+</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> value, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> prop)) <span class="sc">+</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Word"</span>, <span class="at">y =</span> <span class="st">"Proportion of total words"</span>) <span class="sc">+</span> </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/quijote-most-frequent-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>If you’ve ever worked with a corpus of text before you probably weren’t to surprised to see that the most frequent words aren’t all that interesting (propositions, pronounds, etc.)… well, unless that is what you are looking for. Anyway, I don’t think we learn much from seeing the “que” is the most common word, but there are a few interesting nuggests in the top 50, like “merced”, “Sancho”, or “respondió”. If you really wanted to have fun with this corpus you would need to find a list Spanish stop words to filter out irrelevant words and possibly a sentiment dictionary. You could, for example, compare sentiment scores of the most frequent words from part I vs.&nbsp;part II. Anyway, let’s move on to another example.</p>
+</section>
+<section id="point-shooters" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="point-shooters">3-point shooters</h3>
+<p>Let’s try an example that is a little bit more complicated because of the html tags. <a href="https://www.nba.com/news/history-3-point-contest">nba.com</a> has a news story that includes a list of all of the 3-point contest winners. The list includes the year, the winner’s name, their team, and the city where the All-Star game took place. Let’s use the html tags to get this information into R.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Initially I was going to look at NBA championships, but that is too painful to talk about. The information could be scraped from here, though:<br>
+<a href="https://en.wikipedia.org/wiki/List_of_NBA_champions" class="uri">https://en.wikipedia.org/wiki/List_of_NBA_champions</a></p>
+</div></div><p>If I use the same strategy as our Don Quijote example, I get the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>url_nba <span class="ot">&lt;-</span> <span class="st">"https://www.nba.com/news/history-3-point-contest"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>url_nba <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"p"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (58)}
+ [1] &lt;p class="ArticleHeader_ahSubtitle__4qa5C"&gt;See every winner of the NBA's ...
+ [2] &lt;p&gt;&lt;img loading="lazy" class="alignnone size-large wp-image-601876" src= ...
+ [3] &lt;p&gt;A year-by-year look at the NBA Three-Point Contest winners since the  ...
+ [4] &lt;p&gt;&lt;u&gt;&lt;strong&gt;Year&lt;/strong&gt;&lt;/u&gt;&nbsp;|&nbsp;&lt;u&gt;&lt;strong&gt;Winner (Team)&lt;/strong&gt;&lt;/u&gt;&nbsp; ...
+ [5] &lt;p&gt;2022 | &lt;strong&gt;Karl-Anthony Towns&lt;/strong&gt; (Timberwolves)| Cleveland&lt;/p&gt;
+ [6] &lt;p&gt;2021| &lt;strong&gt;Steph Curry&lt;/strong&gt;&nbsp;(Warriors) | Chicago&lt;/p&gt;
+ [7] &lt;p&gt;2020&nbsp;|&nbsp;&lt;strong&gt;Buddy Hield&lt;/strong&gt;&nbsp;(Kings) | Chicago&lt;/p&gt;
+ [8] &lt;p&gt;2019&nbsp;|&nbsp;&lt;strong&gt;Joe Harris&lt;/strong&gt;&nbsp;(Nets) | Charlotte&lt;/p&gt;
+ [9] &lt;p&gt;2018&nbsp;|&nbsp;&lt;strong&gt;Devin Booker&lt;/strong&gt;&nbsp;(Suns) | Los Angeles&lt;/p&gt;
+[10] &lt;p&gt;2017 |&lt;strong&gt;&nbsp;Eric Gordon&lt;/strong&gt;&nbsp;(Rockets) | New Orleans&lt;/p&gt;
+[11] &lt;p&gt;2016 |&nbsp;&lt;strong&gt;Klay Thompson&lt;/strong&gt;&nbsp;(Warriors) | Toronto&lt;/p&gt;
+[12] &lt;p&gt;2015 |&nbsp;&lt;strong&gt;Stephen Curry&lt;/strong&gt;&nbsp;(Warriors) | New York City&lt;/p&gt;
+[13] &lt;p&gt;2014 |&nbsp;&lt;strong&gt;Marco Belinelli&lt;/strong&gt;&nbsp;(Spurs) | New Olreans&lt;/p&gt;
+[14] &lt;p&gt;2013 |&nbsp;&lt;strong&gt;Kyrie Irving&lt;/strong&gt;&nbsp;(Cavaliers) | Houston&lt;/p&gt;
+[15] &lt;p&gt;2012 |&nbsp;&lt;strong&gt;Kevin Love&lt;/strong&gt;&nbsp;(Timberwolves) | Orlando&lt;/p&gt;
+[16] &lt;p&gt;2011 |&nbsp;&lt;strong&gt;James Jones&lt;/strong&gt;&nbsp;(Heat) | Los Angeles&lt;/p&gt;
+[17] &lt;p&gt;2010 |&nbsp;&lt;strong&gt;Paul Pierce&lt;/strong&gt;&nbsp;(Celtics) | Dallas&lt;/p&gt;
+[18] &lt;p&gt;2009 |&nbsp;&lt;strong&gt;Daequan Cook&lt;/strong&gt;&nbsp;(Heat) | Phoenix&lt;/p&gt;
+[19] &lt;p&gt;2008 |&nbsp;&lt;strong&gt;Jason Kapono&lt;/strong&gt;&nbsp;(Raptors) | New Orleans&lt;/p&gt;
+[20] &lt;p&gt;2007 |&nbsp;&lt;strong&gt;Jason Kapono&lt;/strong&gt;&nbsp;(Raptors) | Las Vegas&lt;/p&gt;
+...</code></pre>
+</div>
+</div>
+<p>It looks like I am getting the info I want (lines 4-20), but also some info I don’t want (lines 1-3). This is because the &lt;p&gt; tags include the list I am interested but were also used for other information. This makes sense, the &lt;p&gt; tag is rather generic and used in many situations. At this point I have two options. I can work with this by filtering out the info I don’t want or I can use more specific tags inside of <code>html_elements</code> to single out just the information I want. In this particular case, it probably isn’t a big deal to just do some post-processing on what <code>html_elements</code> is currently giving me, but I will work through getting better, more specific tags, which is a skill worth developing for more complicated webscraping situations.</p>
+<p>In most browswers you can take a peek at the underlying html code by right-clicking anywhere on the webpage and selecting <code>Inspect element</code> (or something similar).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./inspect1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Right-clicking on the nba.com page.</figcaption><p></p>
+</figure>
+</div>
+<p>This will split the window in half. You should see both the website and the inspector window. You can now hover over parts of the html code and see the corresponding part of the website become highlighted. This will give you an idea of what html elements to look for.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./inspect2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Hovering ver the “p” tag for Karl-Anthony Towns.</figcaption><p></p>
+</figure>
+</div>
+<p>In most cases, using the inspector is sufficient for getting the tag(s) you need to scrape the page, but some website have more complicated formatting and this might not be helpful enough. In those cases you can use <a href="www.selectorgadget.com">SelectorGadget</a> to point and click CSS selectors. You can see how it works here:</p>
+<p><br></p>
+<div class="cell">
+<style type="text/css">
+iframe {
+  margin: 0 auto;
+  background-color: #000;
+  display:block;
+}
+</style>
+</div>
+<iframe title="vimeo-player" src="https://player.vimeo.com/video/52055686?h=6d49b3e9ac" width="640" height="581" frameborder="0" allowfullscreen="">
+</iframe>
+<p><br></p>
+<p>I was able to select the information I wanted for the 3-point contest data and the corresponding css selectors were <code>h3~ p+ p</code>. Let’s try this inside <code>html_elements</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>url_nba <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"h3~ p+ p"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (36)}
+ [1] &lt;p&gt;2022 | &lt;strong&gt;Karl-Anthony Towns&lt;/strong&gt; (Timberwolves)| Cleveland&lt;/p&gt;
+ [2] &lt;p&gt;2021| &lt;strong&gt;Steph Curry&lt;/strong&gt;&nbsp;(Warriors) | Chicago&lt;/p&gt;
+ [3] &lt;p&gt;2020&nbsp;|&nbsp;&lt;strong&gt;Buddy Hield&lt;/strong&gt;&nbsp;(Kings) | Chicago&lt;/p&gt;
+ [4] &lt;p&gt;2019&nbsp;|&nbsp;&lt;strong&gt;Joe Harris&lt;/strong&gt;&nbsp;(Nets) | Charlotte&lt;/p&gt;
+ [5] &lt;p&gt;2018&nbsp;|&nbsp;&lt;strong&gt;Devin Booker&lt;/strong&gt;&nbsp;(Suns) | Los Angeles&lt;/p&gt;
+ [6] &lt;p&gt;2017 |&lt;strong&gt;&nbsp;Eric Gordon&lt;/strong&gt;&nbsp;(Rockets) | New Orleans&lt;/p&gt;
+ [7] &lt;p&gt;2016 |&nbsp;&lt;strong&gt;Klay Thompson&lt;/strong&gt;&nbsp;(Warriors) | Toronto&lt;/p&gt;
+ [8] &lt;p&gt;2015 |&nbsp;&lt;strong&gt;Stephen Curry&lt;/strong&gt;&nbsp;(Warriors) | New York City&lt;/p&gt;
+ [9] &lt;p&gt;2014 |&nbsp;&lt;strong&gt;Marco Belinelli&lt;/strong&gt;&nbsp;(Spurs) | New Olreans&lt;/p&gt;
+[10] &lt;p&gt;2013 |&nbsp;&lt;strong&gt;Kyrie Irving&lt;/strong&gt;&nbsp;(Cavaliers) | Houston&lt;/p&gt;
+[11] &lt;p&gt;2012 |&nbsp;&lt;strong&gt;Kevin Love&lt;/strong&gt;&nbsp;(Timberwolves) | Orlando&lt;/p&gt;
+[12] &lt;p&gt;2011 |&nbsp;&lt;strong&gt;James Jones&lt;/strong&gt;&nbsp;(Heat) | Los Angeles&lt;/p&gt;
+[13] &lt;p&gt;2010 |&nbsp;&lt;strong&gt;Paul Pierce&lt;/strong&gt;&nbsp;(Celtics) | Dallas&lt;/p&gt;
+[14] &lt;p&gt;2009 |&nbsp;&lt;strong&gt;Daequan Cook&lt;/strong&gt;&nbsp;(Heat) | Phoenix&lt;/p&gt;
+[15] &lt;p&gt;2008 |&nbsp;&lt;strong&gt;Jason Kapono&lt;/strong&gt;&nbsp;(Raptors) | New Orleans&lt;/p&gt;
+[16] &lt;p&gt;2007 |&nbsp;&lt;strong&gt;Jason Kapono&lt;/strong&gt;&nbsp;(Raptors) | Las Vegas&lt;/p&gt;
+[17] &lt;p&gt;2006 |&nbsp;&lt;strong&gt;Dirk Nowitzki&lt;/strong&gt;&nbsp;(Mavs) | Houston&lt;/p&gt;
+[18] &lt;p&gt;2005 |&nbsp;&lt;strong&gt;Quentin Richardson&lt;/strong&gt;&nbsp;(Suns) | Denver&lt;/p&gt;
+[19] &lt;p&gt;2004 |&nbsp;&lt;strong&gt;Voshon Lenard&lt;/strong&gt;&nbsp;(Nuggets) | Los Angeles&lt;/p&gt;
+[20] &lt;p&gt;2003 |&nbsp;&lt;strong&gt;Peja Stojakovic&lt;/strong&gt;&nbsp;(Kings) | Atlanta&lt;/p&gt;
+...</code></pre>
+</div>
+</div>
+<p>That’s much better. A complete workflow might look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>threes <span class="ot">&lt;-</span> url_nba <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"h3~ p+ p"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(value, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"athlete"</span>, <span class="st">"city"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">|"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(athlete, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"athlete"</span>, <span class="st">"team"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> <span class="fu">str_remove_all</span>(team, <span class="st">"</span><span class="sc">\\</span><span class="st">)"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), str_trim)) </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>threes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 4
+   year  athlete            team         city         
+   &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;        &lt;chr&gt;        
+ 1 2022  Karl-Anthony Towns Timberwolves Cleveland    
+ 2 2021  Steph Curry        Warriors     Chicago      
+ 3 2020  Buddy Hield        Kings        Chicago      
+ 4 2019  Joe Harris         Nets         Charlotte    
+ 5 2018  Devin Booker       Suns         Los Angeles  
+ 6 2017  Eric Gordon        Rockets      New Orleans  
+ 7 2016  Klay Thompson      Warriors     Toronto      
+ 8 2015  Stephen Curry      Warriors     New York City
+ 9 2014  Marco Belinelli    Spurs        New Olreans  
+10 2013  Kyrie Irving       Cavaliers    Houston      
+# … with 26 more rows</code></pre>
+</div>
+</div>
+<p>That looks pretty good. Now we can put it in a pretty table and ask some questions.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>), </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"500px"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> year </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> athlete </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> team </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> city </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 2022 </td>
+   <td style="text-align:left;"> Karl-Anthony Towns </td>
+   <td style="text-align:left;"> Timberwolves </td>
+   <td style="text-align:left;"> Cleveland </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2021 </td>
+   <td style="text-align:left;"> Steph Curry </td>
+   <td style="text-align:left;"> Warriors </td>
+   <td style="text-align:left;"> Chicago </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020 </td>
+   <td style="text-align:left;"> Buddy Hield </td>
+   <td style="text-align:left;"> Kings </td>
+   <td style="text-align:left;"> Chicago </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2019 </td>
+   <td style="text-align:left;"> Joe Harris </td>
+   <td style="text-align:left;"> Nets </td>
+   <td style="text-align:left;"> Charlotte </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2018 </td>
+   <td style="text-align:left;"> Devin Booker </td>
+   <td style="text-align:left;"> Suns </td>
+   <td style="text-align:left;"> Los Angeles </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2017 </td>
+   <td style="text-align:left;"> Eric Gordon </td>
+   <td style="text-align:left;"> Rockets </td>
+   <td style="text-align:left;"> New Orleans </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2016 </td>
+   <td style="text-align:left;"> Klay Thompson </td>
+   <td style="text-align:left;"> Warriors </td>
+   <td style="text-align:left;"> Toronto </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2015 </td>
+   <td style="text-align:left;"> Stephen Curry </td>
+   <td style="text-align:left;"> Warriors </td>
+   <td style="text-align:left;"> New York City </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2014 </td>
+   <td style="text-align:left;"> Marco Belinelli </td>
+   <td style="text-align:left;"> Spurs </td>
+   <td style="text-align:left;"> New Olreans </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2013 </td>
+   <td style="text-align:left;"> Kyrie Irving </td>
+   <td style="text-align:left;"> Cavaliers </td>
+   <td style="text-align:left;"> Houston </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2012 </td>
+   <td style="text-align:left;"> Kevin Love </td>
+   <td style="text-align:left;"> Timberwolves </td>
+   <td style="text-align:left;"> Orlando </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2011 </td>
+   <td style="text-align:left;"> James Jones </td>
+   <td style="text-align:left;"> Heat </td>
+   <td style="text-align:left;"> Los Angeles </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2010 </td>
+   <td style="text-align:left;"> Paul Pierce </td>
+   <td style="text-align:left;"> Celtics </td>
+   <td style="text-align:left;"> Dallas </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2009 </td>
+   <td style="text-align:left;"> Daequan Cook </td>
+   <td style="text-align:left;"> Heat </td>
+   <td style="text-align:left;"> Phoenix </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2008 </td>
+   <td style="text-align:left;"> Jason Kapono </td>
+   <td style="text-align:left;"> Raptors </td>
+   <td style="text-align:left;"> New Orleans </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2007 </td>
+   <td style="text-align:left;"> Jason Kapono </td>
+   <td style="text-align:left;"> Raptors </td>
+   <td style="text-align:left;"> Las Vegas </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2006 </td>
+   <td style="text-align:left;"> Dirk Nowitzki </td>
+   <td style="text-align:left;"> Mavs </td>
+   <td style="text-align:left;"> Houston </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2005 </td>
+   <td style="text-align:left;"> Quentin Richardson </td>
+   <td style="text-align:left;"> Suns </td>
+   <td style="text-align:left;"> Denver </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2004 </td>
+   <td style="text-align:left;"> Voshon Lenard </td>
+   <td style="text-align:left;"> Nuggets </td>
+   <td style="text-align:left;"> Los Angeles </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2003 </td>
+   <td style="text-align:left;"> Peja Stojakovic </td>
+   <td style="text-align:left;"> Kings </td>
+   <td style="text-align:left;"> Atlanta </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2002 </td>
+   <td style="text-align:left;"> Peja Stojakovic </td>
+   <td style="text-align:left;"> Kings </td>
+   <td style="text-align:left;"> Philadelphia </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2001 </td>
+   <td style="text-align:left;"> Ray Allen </td>
+   <td style="text-align:left;"> Bucks </td>
+   <td style="text-align:left;"> Washington, D.C. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2000 </td>
+   <td style="text-align:left;"> Jeff Hornacek </td>
+   <td style="text-align:left;"> Jazz </td>
+   <td style="text-align:left;"> Oakland </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1998 </td>
+   <td style="text-align:left;"> Jeff Hornacek </td>
+   <td style="text-align:left;"> Jazz </td>
+   <td style="text-align:left;"> New York </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1997 </td>
+   <td style="text-align:left;"> Steve Kerr </td>
+   <td style="text-align:left;"> Bulls </td>
+   <td style="text-align:left;"> Cleveland </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1996 </td>
+   <td style="text-align:left;"> Tim Legler </td>
+   <td style="text-align:left;"> Wizards </td>
+   <td style="text-align:left;"> San Antonio </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1995 </td>
+   <td style="text-align:left;"> Glen Rice </td>
+   <td style="text-align:left;"> Heat </td>
+   <td style="text-align:left;"> Phoenix </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1994 </td>
+   <td style="text-align:left;"> Mark Price </td>
+   <td style="text-align:left;"> Cavs </td>
+   <td style="text-align:left;"> Minnesota </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1993 </td>
+   <td style="text-align:left;"> Mark Price </td>
+   <td style="text-align:left;"> Cavs </td>
+   <td style="text-align:left;"> Salt Lake City </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1992 </td>
+   <td style="text-align:left;"> Craig Hodges </td>
+   <td style="text-align:left;"> Bulls </td>
+   <td style="text-align:left;"> Orlando </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1991 </td>
+   <td style="text-align:left;"> Craig Hodges </td>
+   <td style="text-align:left;"> Bulls </td>
+   <td style="text-align:left;"> Charlotte </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1990 </td>
+   <td style="text-align:left;"> Craig Hodges </td>
+   <td style="text-align:left;"> Bulls </td>
+   <td style="text-align:left;"> Miami </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1989 </td>
+   <td style="text-align:left;"> Dale Ellis </td>
+   <td style="text-align:left;"> Sonics </td>
+   <td style="text-align:left;"> Houston </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1988 </td>
+   <td style="text-align:left;"> Larry Bird </td>
+   <td style="text-align:left;"> Celtics </td>
+   <td style="text-align:left;"> Chicago </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1987 </td>
+   <td style="text-align:left;"> Larry Bird </td>
+   <td style="text-align:left;"> Celtics </td>
+   <td style="text-align:left;"> Seattle </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1986 </td>
+   <td style="text-align:left;"> Larry Bird </td>
+   <td style="text-align:left;"> Celtics </td>
+   <td style="text-align:left;"> Dallas </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<p><br></p>
+<p>Which player has won the most three point titles?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(athlete) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, n, max)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> n, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>, </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Athletes with most three-point contest wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/three-winners-athlete-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Apparently most winners don’t repeat. It looks like 4 players have won twice and only Larry Bird and Craig Hodges have won three times!</p>
+<p>Which team has had the most winners?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(team) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> <span class="fu">fct_reorder</span>(team, n, max)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> team)) <span class="sc">+</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> n, <span class="at">yend =</span> team), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"Team"</span>, </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Teams with most three-point contest wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/three-winners-team-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Ok. So, we have covered scraping text from (slightly) more complicated websites. Now we will look at scraping tables.</p>
+</section>
+</section>
+<section id="scraping-tables" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="scraping-tables">Scraping tables</h2>
+<section id="phoenix-suns-2022-2023-data" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="phoenix-suns-2022-2023-data">Phoenix Suns 2022-2023 data</h3>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="https://cdn.nba.com/teams/uploads/sites/1610612756/2022/08/suns-logo.svg" class="img-fluid"></p>
+</div></div><p>For this example we will scrape some data from the website <a href="www.basketball-reference.com">basketball-reference.com</a>. Specifically, I am going to target some per-game data on the Phoenix Suns. We can see their team stats here: <a href="https://www.basketball-reference.com/teams/PHO/2023.html" class="uri">https://www.basketball-reference.com/teams/PHO/2023.html</a>. I will use the ‘inspect element’ trick I referenced above to find the information I need for the per-game table, but this time I am not looking for a specific tag like when I was interested in scraping text. Luckily the process is a bit easier for tables (usually).</p>
+<p>So I right-click to get the inspector window. Then I look for the table I am interested in. Once I have highlighted the table I want in the inspector window, I can right-click and copy the <code>xpath</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./inspect3.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The div tag I am hovering over highlights the table I want. Now I can right-click and copy the xpath.</figcaption><p></p>
+</figure>
+</div>
+<p><br></p>
+<p>With the xpath copied to the clipboard, I am ready to code up the pipeline in R. This will look just like our previous examples, though notice that now I am pasting the xpath in the <code>html_elements</code> function (as opposed to some css tags).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basketball reference URL</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>url_suns <span class="ot">&lt;-</span> <span class="st">"https://www.basketball-reference.com/teams/PHO/2023.html"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="ot">&lt;-</span> url_suns <span class="sc">%&gt;%</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">xpath =</span> <span class="st">'//*[@id="per_game"]'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">athlete =</span> <span class="st">`</span><span class="at">...2</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And I can put the resulting tibble in a nice table:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>), </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">font_size =</span> <span class="dv">12</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"500px"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Rk </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> athlete </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Age </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> G </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> GS </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> MP </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FG </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FGA </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FG% </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3P </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3PA </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3P% </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2P </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2PA </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2P% </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> eFG% </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FT </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FTA </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FT% </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ORB </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> DRB </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> TRB </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> AST </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> STL </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> BLK </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> TOV </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> PF </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> PTS/G </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Mikal Bridges </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 36.5 </td>
+   <td style="text-align:right;"> 6.0 </td>
+   <td style="text-align:right;"> 12.7 </td>
+   <td style="text-align:right;"> 0.469 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 4.5 </td>
+   <td style="text-align:right;"> 0.409 </td>
+   <td style="text-align:right;"> 4.1 </td>
+   <td style="text-align:right;"> 8.2 </td>
+   <td style="text-align:right;"> 0.502 </td>
+   <td style="text-align:right;"> 0.542 </td>
+   <td style="text-align:right;"> 2.1 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 0.906 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 3.8 </td>
+   <td style="text-align:right;"> 5.0 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 15.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Devin Booker </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 35.4 </td>
+   <td style="text-align:right;"> 9.8 </td>
+   <td style="text-align:right;"> 20.5 </td>
+   <td style="text-align:right;"> 0.478 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 6.2 </td>
+   <td style="text-align:right;"> 0.375 </td>
+   <td style="text-align:right;"> 7.5 </td>
+   <td style="text-align:right;"> 14.4 </td>
+   <td style="text-align:right;"> 0.521 </td>
+   <td style="text-align:right;"> 0.534 </td>
+   <td style="text-align:right;"> 5.5 </td>
+   <td style="text-align:right;"> 6.3 </td>
+   <td style="text-align:right;"> 0.866 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 4.0 </td>
+   <td style="text-align:right;"> 4.8 </td>
+   <td style="text-align:right;"> 5.8 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 2.5 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 27.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Chris Paul </td>
+   <td style="text-align:right;"> 37 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 30.9 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 8.8 </td>
+   <td style="text-align:right;"> 0.366 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 4.1 </td>
+   <td style="text-align:right;"> 0.298 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 4.7 </td>
+   <td style="text-align:right;"> 0.424 </td>
+   <td style="text-align:right;"> 0.435 </td>
+   <td style="text-align:right;"> 2.7 </td>
+   <td style="text-align:right;"> 3.1 </td>
+   <td style="text-align:right;"> 0.884 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 4.2 </td>
+   <td style="text-align:right;"> 4.7 </td>
+   <td style="text-align:right;"> 8.8 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 2.1 </td>
+   <td style="text-align:right;"> 2.6 </td>
+   <td style="text-align:right;"> 10.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> Deandre Ayton </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 28.8 </td>
+   <td style="text-align:right;"> 7.4 </td>
+   <td style="text-align:right;"> 12.0 </td>
+   <td style="text-align:right;"> 0.619 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.286 </td>
+   <td style="text-align:right;"> 7.3 </td>
+   <td style="text-align:right;"> 11.5 </td>
+   <td style="text-align:right;"> 0.634 </td>
+   <td style="text-align:right;"> 0.625 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 0.722 </td>
+   <td style="text-align:right;"> 3.0 </td>
+   <td style="text-align:right;"> 6.5 </td>
+   <td style="text-align:right;"> 9.5 </td>
+   <td style="text-align:right;"> 2.2 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 2.9 </td>
+   <td style="text-align:right;"> 17.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:left;"> Cameron Johnson </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 25.3 </td>
+   <td style="text-align:right;"> 4.6 </td>
+   <td style="text-align:right;"> 10.4 </td>
+   <td style="text-align:right;"> 0.446 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 6.4 </td>
+   <td style="text-align:right;"> 0.431 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 4.0 </td>
+   <td style="text-align:right;"> 0.469 </td>
+   <td style="text-align:right;"> 0.578 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 0.727 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 3.4 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 13.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:left;"> Cameron Payne </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 24.8 </td>
+   <td style="text-align:right;"> 4.7 </td>
+   <td style="text-align:right;"> 11.4 </td>
+   <td style="text-align:right;"> 0.416 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 4.8 </td>
+   <td style="text-align:right;"> 0.387 </td>
+   <td style="text-align:right;"> 2.9 </td>
+   <td style="text-align:right;"> 6.6 </td>
+   <td style="text-align:right;"> 0.436 </td>
+   <td style="text-align:right;"> 0.497 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 0.766 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 2.4 </td>
+   <td style="text-align:right;"> 5.3 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 2.1 </td>
+   <td style="text-align:right;"> 12.7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:left;"> Torrey Craig </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 24.6 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 6.7 </td>
+   <td style="text-align:right;"> 0.470 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 3.6 </td>
+   <td style="text-align:right;"> 0.382 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 0.570 </td>
+   <td style="text-align:right;"> 0.571 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.824 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 5.2 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 8.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:left;"> Damion Lee </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 21.4 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 6.2 </td>
+   <td style="text-align:right;"> 0.454 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 3.9 </td>
+   <td style="text-align:right;"> 0.473 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 0.422 </td>
+   <td style="text-align:right;"> 0.603 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 0.920 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 2.7 </td>
+   <td style="text-align:right;"> 3.4 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 8.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:left;"> Landry Shamet </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 16.8 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 5.6 </td>
+   <td style="text-align:right;"> 0.411 </td>
+   <td style="text-align:right;"> 1.6 </td>
+   <td style="text-align:right;"> 4.2 </td>
+   <td style="text-align:right;"> 0.380 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.500 </td>
+   <td style="text-align:right;"> 0.551 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 0.850 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 7.1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:left;"> Jock Landale </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 13.0 </td>
+   <td style="text-align:right;"> 2.5 </td>
+   <td style="text-align:right;"> 4.7 </td>
+   <td style="text-align:right;"> 0.530 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 0.156 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 3.4 </td>
+   <td style="text-align:right;"> 0.671 </td>
+   <td style="text-align:right;"> 0.551 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.784 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 3.5 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 6.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:left;"> Ish Wainright </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 12.5 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 2.6 </td>
+   <td style="text-align:right;"> 0.448 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 0.480 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 0.250 </td>
+   <td style="text-align:right;"> 0.655 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 0.667 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 3.6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:left;"> Bismack Biyombo </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 12.3 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 2.6 </td>
+   <td style="text-align:right;"> 0.544 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 2.6 </td>
+   <td style="text-align:right;"> 0.544 </td>
+   <td style="text-align:right;"> 0.544 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.409 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.4 </td>
+   <td style="text-align:right;"> 3.4 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 0.3 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 3.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:left;"> Dario Šarić </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 12.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 3.9 </td>
+   <td style="text-align:right;"> 0.345 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 1.8 </td>
+   <td style="text-align:right;"> 0.320 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 2.1 </td>
+   <td style="text-align:right;"> 0.367 </td>
+   <td style="text-align:right;"> 0.418 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.778 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 2.3 </td>
+   <td style="text-align:right;"> 3.4 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 1.6 </td>
+   <td style="text-align:right;"> 3.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:left;"> Josh Okogie </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 9.5 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 0.395 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.257 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 1.7 </td>
+   <td style="text-align:right;"> 0.512 </td>
+   <td style="text-align:right;"> 0.454 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 0.724 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 2.4 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 3.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:left;"> Duane Washington Jr. </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 9.0 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 0.377 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 2.6 </td>
+   <td style="text-align:right;"> 0.282 </td>
+   <td style="text-align:right;"> 1.2 </td>
+   <td style="text-align:right;"> 2.5 </td>
+   <td style="text-align:right;"> 0.474 </td>
+   <td style="text-align:right;"> 0.448 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.000 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 4.6 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<p><br></p>
+<p>Now we can take a look at the data. Who is the leading scorer?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>img_link <span class="ot">&lt;-</span> <span class="st">"https://www.freepnglogos.com/uploads/basketball-png/basketball-open-letter-3.png"</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, max), </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">img =</span> img_link) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> img), <span class="at">size =</span> <span class="fl">0.03</span>) <span class="sc">+</span> </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Avg. points per game"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/suns-ppg-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Who plays the most minutes? Does age have any effect on average minutes played?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">img =</span> <span class="fu">case_when</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Mikal Bridges"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg"</span>, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Devin Booker"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Deandre Ayton"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Chris Paul"</span>           <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Jae Crowder"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Landry Shamet"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Dario Šarić"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Cameron Payne"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Cameron Johnson"</span>      <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg"</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Torrey Craig"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg"</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Damion Lee"</span>           <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg"</span>,</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Josh Okogie"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Bismack Biyombo"</span>      <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Jock Landale"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg"</span>, </span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Duane Washington Jr."</span> <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg"</span>, </span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Ish Wainright"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg"</span>, </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MP)) <span class="sc">+</span> </span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> img), <span class="at">size =</span> <span class="fl">0.075</span>) <span class="sc">+</span> </span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Avg. minutes per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/suns-salaries-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Two of the younger players are getting lots of minutes, and Chris Paul, for his age, is also playing a lot of minutes.</p>
+</section>
+</section>
+<section id="wrapping-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrapping-up">Wrapping up</h2>
+<p>That seems like enough for now. The main takeaway is that <code>rvest</code> makes it quite easy to scrape data from a website. Knowing a bit of html is certainly helpful, but it’s not a dealbreaker if you don’t.</p>
+<hr>
+<p>Last update: 2022-12-14.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sessioninfo<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.2.1 (2022-06-23)
+ os       macOS Big Sur ... 10.16
+ system   x86_64, darwin17.0
+ ui       X11
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       America/New_York
+ date     2022-12-14
+ pandoc   2.19.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ package      * version date (UTC) lib source
+ assertthat     0.2.1   2019-03-21 [1] CRAN (R 4.2.0)
+ cli            3.4.1   2022-09-23 [1] CRAN (R 4.2.0)
+ colorspace     2.0-3   2022-02-21 [1] CRAN (R 4.2.0)
+ curl           4.3.3   2022-10-06 [1] CRAN (R 4.2.0)
+ DBI            1.1.3   2022-06-18 [1] CRAN (R 4.2.0)
+ digest         0.6.30  2022-10-18 [1] CRAN (R 4.2.0)
+ dplyr        * 1.0.10  2022-09-01 [1] CRAN (R 4.2.0)
+ ellipsis       0.3.2   2021-04-29 [1] CRAN (R 4.2.0)
+ evaluate       0.18    2022-11-07 [1] CRAN (R 4.2.0)
+ fansi          1.0.3   2022-03-24 [1] CRAN (R 4.2.0)
+ farver         2.1.1   2022-07-06 [1] CRAN (R 4.2.0)
+ fastmap        1.1.0   2021-01-25 [1] CRAN (R 4.2.0)
+ forcats      * 0.5.2   2022-08-19 [1] CRAN (R 4.2.0)
+ generics       0.1.3   2022-07-05 [1] CRAN (R 4.2.0)
+ ggfun          0.0.8   2022-11-07 [1] CRAN (R 4.2.0)
+ ggimage      * 0.3.1   2022-04-25 [1] CRAN (R 4.2.0)
+ ggplot2      * 3.4.0   2022-11-04 [1] CRAN (R 4.2.0)
+ ggplotify      0.1.0   2021-09-02 [1] CRAN (R 4.2.0)
+ glue           1.6.2   2022-02-24 [1] CRAN (R 4.2.0)
+ gridGraphics   0.5-1   2020-12-13 [1] CRAN (R 4.2.0)
+ gtable         0.3.1   2022-09-01 [1] CRAN (R 4.2.0)
+ highr          0.9     2021-04-16 [1] CRAN (R 4.2.0)
+ htmltools      0.5.3   2022-07-18 [1] CRAN (R 4.2.0)
+ htmlwidgets    1.5.4   2021-09-08 [1] CRAN (R 4.2.0)
+ httr           1.4.4   2022-08-17 [1] CRAN (R 4.2.0)
+ janitor      * 2.1.0   2021-01-05 [1] CRAN (R 4.2.0)
+ jsonlite       1.8.4   2022-12-06 [1] CRAN (R 4.2.1)
+ kableExtra   * 1.3.4   2021-02-20 [1] CRAN (R 4.2.0)
+ knitr          1.41    2022-11-18 [1] CRAN (R 4.2.0)
+ labeling       0.4.2   2020-10-20 [1] CRAN (R 4.2.0)
+ lifecycle      1.0.3   2022-10-07 [1] CRAN (R 4.2.0)
+ lubridate      1.9.0   2022-11-06 [1] CRAN (R 4.2.0)
+ magick         2.7.3   2021-08-18 [1] CRAN (R 4.2.0)
+ magrittr       2.0.3   2022-03-30 [1] CRAN (R 4.2.0)
+ munsell        0.5.0   2018-06-12 [1] CRAN (R 4.2.0)
+ pillar         1.8.1   2022-08-19 [1] CRAN (R 4.2.0)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.2.0)
+ purrr          0.3.5   2022-10-06 [1] CRAN (R 4.2.0)
+ R6             2.5.1   2021-08-19 [1] CRAN (R 4.2.0)
+ Rcpp           1.0.9   2022-07-08 [1] CRAN (R 4.2.0)
+ rlang          1.0.6   2022-09-24 [1] CRAN (R 4.2.0)
+ rmarkdown      2.18    2022-11-09 [1] CRAN (R 4.2.0)
+ rstudioapi     0.14    2022-08-22 [1] CRAN (R 4.2.0)
+ rvest        * 1.0.3   2022-08-19 [1] CRAN (R 4.2.0)
+ scales         1.2.1   2022-08-20 [1] CRAN (R 4.2.0)
+ selectr        0.4-2   2019-11-20 [1] CRAN (R 4.2.0)
+ sessioninfo    1.2.2   2021-12-06 [1] CRAN (R 4.2.0)
+ snakecase      0.11.0  2019-05-25 [1] CRAN (R 4.2.0)
+ stringi        1.7.8   2022-07-11 [1] CRAN (R 4.2.0)
+ stringr      * 1.5.0   2022-12-02 [1] CRAN (R 4.2.1)
+ svglite        2.1.0   2022-02-03 [1] CRAN (R 4.2.0)
+ systemfonts    1.0.4   2022-02-11 [1] CRAN (R 4.2.0)
+ tibble         3.1.8   2022-07-22 [1] CRAN (R 4.2.0)
+ tidyr        * 1.2.1   2022-09-08 [1] CRAN (R 4.2.0)
+ tidyselect     1.2.0   2022-10-10 [1] CRAN (R 4.2.0)
+ timechange     0.1.1   2022-11-04 [1] CRAN (R 4.2.0)
+ utf8           1.2.2   2021-07-24 [1] CRAN (R 4.2.0)
+ vctrs          0.5.1   2022-11-16 [1] CRAN (R 4.2.1)
+ viridisLite    0.4.1   2022-08-22 [1] CRAN (R 4.2.0)
+ webshot        0.5.4   2022-09-26 [1] CRAN (R 4.2.0)
+ withr          2.5.0   2022-03-03 [1] CRAN (R 4.2.0)
+ xfun           0.35    2022-11-16 [1] CRAN (R 4.2.1)
+ xml2           1.3.3   2021-11-30 [1] CRAN (R 4.2.0)
+ yaml           2.3.6   2022-10-18 [1] CRAN (R 4.2.0)
+ yulab.utils    0.0.5   2022-06-30 [1] CRAN (R 4.2.0)
+
+ [1] /Library/Frameworks/R.framework/Versions/4.2/Resources/library
+
+──────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="jvcasillas/webscraping_101" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

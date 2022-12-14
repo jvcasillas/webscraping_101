@@ -1,0 +1,461 @@
+---
+title: "Webscraping 101"
+author: "Joseph V. Casillas"
+date: "2022-12-14"
+comments:
+  utterances:
+    repo: jvcasillas/webscraping_101
+format:
+  html:
+    theme: simplex
+    toc: true
+    highlight-style: monokai
+    code-block-bg: "#000"
+    code-block-border-left: "#cc0033"
+---
+
+## Overview
+
+In this brief tutorial I will walk through the basics of getting information from the internet (webscraping) and into R. 
+Let's start by loading the packages we'll need: 
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+# Load packages
+library("rvest")
+library("tidyr")
+library("dplyr")
+library("stringr")
+library("forcats")
+library("ggplot2")
+library("kableExtra")
+library("janitor")
+library("ggimage")
+
+# Set cleaner plotting theme
+theme_set(theme_bw())
+theme_update(
+  axis.title.y = element_text(size = rel(.9), hjust = 0.95),
+  axis.title.x = element_text(size = rel(.9), hjust = 0.95),
+  panel.grid.major = element_line(colour = 'grey90', linewidth = 0.15),
+  panel.grid.minor = element_line(colour = 'grey90', linewidth = 0.15)
+)
+```
+
+The important one of the group is `rvest`. 
+This package provides several functions we'll use to obtain html and parse it to text. 
+Then we can do whatever we want with it, like put it in a dataframe. 
+
+## Getting text from a website
+
+### Don Quijote
+
+So, now we need to find something from the internet that we want to get into R. 
+Let's start with some text. 
+Why not Don Quijote? 
+It turns out the first and second parts are available online here:  <https://www.gutenberg.org/files/2000/2000-h/2000-h.htm>. 
+
+::: {.column-margin}
+You can find Don Quijote online at many different websites, but I like this one because you can get the entire thing in a single page. 
+:::
+
+Perhaps we have questions like *how many words are in the novel?* or *what words are most common?*
+This is how we could go about answering these questions. 
+
+```{r}
+#| label: get-quijote1
+url_quijote <- "https://www.gutenberg.org/files/2000/2000-h/2000-h.htm"
+
+quijote <- url_quijote %>% 
+  read_html() 
+
+quijote
+```
+
+</br>
+First, we assign the url to an object (`url_quijote`). 
+Next, we pipe the url into the function `read_html`, the output of which is assigned to the object `quijote`. 
+We'll build on this pipe sequence using the `quijote` object, but we will do it step by step so that it makes sense.
+
+Notice that the output returned has two lines containing the head and the body of the document. 
+If you have experience with html, this will make perfect sense. 
+If not, don't worry too much about that. 
+The important thing to know is that we want what's in the body portion of the document. 
+
+Now we will pipe the `quijote` object into the `html_elements` function. 
+This is the real workhorse (imo) of `rvest`
+
+```{r}
+#| label: get-quijote2
+quijote %>% 
+  html_elements("p") 
+```
+
+</br>
+I put in quotes the letter `p`. 
+This tells rvest we want to extract all of the elements in the body of the html document with the tag `p` (paragraph). 
+As you can see from the output, we have printed the first 20 \<p\> tags. 
+Depending on what you are trying to scrape from a website you will look for different tags (or a combination of tags). 
+This is where scraping can get tricky and having experience with html helps a lot. 
+
+Now we will continue building on our pipe sequence and we will send the above output to the `html_text2` function. 
+
+
+```{r}
+#| label: get-quijote3
+quijote %>% 
+  html_elements("p") %>% 
+  html_text2() %>% 
+  print(max = 4)
+```
+
+The `html_text2` function extracted all of the text from within the \<p\> tags!
+Now, we'll finish of our pipe sequence by putting the output in a tibble. 
+Normally I would do all of this in one step, like this: 
+
+```{r}
+#| label: get-quijote4
+quijote <- url_quijote %>% 
+  read_html() %>% 
+  html_elements("p") %>% 
+  html_text2() %>% 
+  as_tibble()
+```
+
+The object `quijote` is a tibble with 1 column and 5,054 rows. 
+The sequence `\r` indicates linebreaks in the text. 
+I am going to clean up and put every word on its own line. 
+
+```{r}
+#| label: tidy-quijote
+
+words <- quijote %>% 
+  mutate(
+    value = str_remove_all(value, "\r"),  # remove linebreaks 
+    value = str_remove_all(value, ","),   # remove commas 
+    value = str_remove_all(value, "\\."), # remove periods
+    value = str_remove_all(value, ";"),   # remove colons
+    value = str_remove_all(value, "-"),   # remove hyphens
+    value = str_remove_all(value, "–"),   # remove en dash
+    value = str_remove_all(value, "—"),   # remove em dash
+    value = str_remove_all(value, "\\?"), # remove question marks
+    value = str_remove_all(value, "\\¿"), # remove question marks
+    value = str_remove_all(value, "\\¡"), # remove exclamation points
+    value = str_remove_all(value, "\\!"), # remove periods
+    value = str_split(value, " ")
+  ) %>% 
+  unlist() %>% 
+  as_tibble() %>% 
+  filter(value != "") #%>% pull(value) %>% str_detect("") %>% sum
+```
+
+The above code chunk removes some punctuation we aren't interested in and creates a data frame of a single column in which every row is a single workd. 
+There are `r nrow(words)` words!
+Let's grab the 50 most common and make a plot. 
+
+
+```{r}
+#| label: quijote-most-frequent
+#| out.width: "100%"
+#| code-fold: true
+# 50 Most frequent words
+top_50 <- words %>% 
+  count(value, sort = TRUE) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  slice(1:50) 
+
+top_50 %>% 
+  mutate(value = fct_reorder(value, prop, max)) %>% 
+  ggplot(., aes(x = value, y = prop)) + 
+    geom_segment(aes(xend = value, y = 0, yend = prop)) + 
+    geom_point() + 
+    labs(x = "Word", y = "Proportion of total words") + 
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+If you've ever worked with a corpus of text before you probably weren't to surprised to see that the most frequent words aren't all that interesting (propositions, pronounds, etc.)... well, unless that is what you are looking for. 
+Anyway, I don't think we learn much from seeing the "que" is the most common word, but there are a few interesting nuggests in the top 50, like "merced", "Sancho", or "respondió". 
+If you really wanted to have fun with this corpus you would need to find a list Spanish stop words to filter out irrelevant words and possibly a sentiment dictionary. 
+You could, for example, compare sentiment scores of the most frequent words from part I vs. part II. 
+Anyway, let's move on to another example. 
+
+### 3-point shooters
+
+Let's try an example that is a little bit more complicated because of the html tags. 
+[nba.com](https://www.nba.com/news/history-3-point-contest) has a news story that includes a list of all of the 3-point contest winners. 
+The list includes the year, the winner's name, their team, and the city where the All-Star game took place. 
+Let's use the html tags to get this information into R. 
+
+::: {.column-margin}
+Initially I was going to look at NBA championships, but that is too painful to talk about. 
+The information could be scraped from here, though:  
+<https://en.wikipedia.org/wiki/List_of_NBA_champions>
+:::
+
+
+
+
+If I use the same strategy as our Don Quijote example, I get the following: 
+
+```{r}
+#| label: get-nba
+url_nba <- "https://www.nba.com/news/history-3-point-contest"
+
+url_nba %>% 
+  read_html() %>% 
+  html_elements("p")
+```
+
+It looks like I am getting the info I want (lines 4-20), but also some info I don't want (lines 1-3). 
+This is because the \<p\> tags include the list I am interested but were also used for other information. 
+This makes sense, the \<p\> tag is rather generic and used in many situations. 
+At this point I have two options. 
+I can work with this by filtering out the info I don't want or I can use more specific tags inside of `html_elements` to single out just the information I want. 
+In this particular case, it probably isn't a big deal to just do some post-processing on what `html_elements` is currently giving me, but I will work through getting better, more specific tags, which is a skill worth developing for more complicated webscraping situations. 
+
+In most browswers you can take a peek at the underlying html code by right-clicking anywhere on the webpage and selecting `Inspect element` (or something similar). 
+
+![Right-clicking on the nba.com page.](./inspect1.png)
+
+This will split the window in half. 
+You should see both the website and the inspector window. 
+You can now hover over parts of the html code and see the corresponding part of the website become highlighted. 
+This will give you an idea of what html elements to look for.
+
+![Hovering ver the "p" tag for Karl-Anthony Towns.](./inspect2.png)
+
+In most cases, using the inspector is sufficient for getting the tag(s) you need to scrape the page, but some website have more complicated formatting and this might not be helpful enough. 
+In those cases you can use [SelectorGadget](www.selectorgadget.com) to point and click CSS selectors. 
+You can see how it works here: 
+
+</br>
+
+```{css}
+#| label: style-iframe
+#| echo: false
+iframe {
+  margin: 0 auto;
+  background-color: #000;
+  display:block;
+}
+```
+
+<iframe title="vimeo-player" src="https://player.vimeo.com/video/52055686?h=6d49b3e9ac" width="640" height="581" frameborder="0" allowfullscreen></iframe>
+
+</br>
+
+I was able to select the information I wanted for the 3-point contest data and the corresponding css selectors were `h3~ p+ p`. 
+Let's try this inside `html_elements`.
+
+```{r}
+#| label: get-nba-better
+url_nba %>% 
+  read_html() %>% 
+  html_elements("h3~ p+ p") 
+```
+
+That's much better. 
+A complete workflow might look like this: 
+
+```{r}
+#| label: get-nba-best
+
+threes <- url_nba %>% 
+  read_html() %>% 
+  html_elements("h3~ p+ p") %>% 
+  html_text2() %>% 
+  as_tibble() %>% 
+  separate(value, into = c("year", "athlete", "city"), sep = "\\|") %>% 
+  separate(athlete, into = c("athlete", "team"), sep = "\\(") %>% 
+  mutate(team = str_remove_all(team, "\\)")) %>% 
+  mutate(across(everything(), str_trim)) 
+
+threes
+```
+
+That looks pretty good. 
+Now we can put it in a pretty table and ask some questions. 
+
+```{r}
+#| label: threes-table
+#| code-fold: true
+threes %>% 
+  kbl() %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"), 
+  ) %>% 
+  scroll_box(width = "100%", height = "500px")
+```
+
+</br>
+
+Which player has won the most three point titles?
+
+```{r}
+#| label: three-winners-athlete
+#| out.width: "100%"
+#| code-fold: true
+threes %>% 
+  group_by(athlete) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(athlete = fct_reorder(athlete, n, max)) %>% 
+  ggplot(., aes(x = n, y = athlete)) + 
+    geom_segment(aes(x = 0, xend = n, yend = athlete), linewidth = 1) + 
+    geom_point(size = 3, pch = 21, fill = "white") + 
+    labs(x = "N", y = "Athlete", 
+         title = "Athletes with most three-point contest wins")
+```
+
+Apparently most winners don't repeat. 
+It looks like 4 players have won twice and only Larry Bird and Craig Hodges have won three times!
+
+Which team has had the most winners?
+
+```{r}
+#| label: three-winners-team
+#| out.width: "100%"
+#| code-fold: true
+threes %>% 
+  group_by(team) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(team = fct_reorder(team, n, max)) %>% 
+  ggplot(., aes(x = n, y = team)) + 
+    geom_segment(aes(x = 0, xend = n, yend = team), linewidth = 1) + 
+    geom_point(size = 3, pch = 21, fill = "white") + 
+    labs(x = "N", y = "Team", 
+         title = "Teams with most three-point contest wins")
+```
+
+Ok. 
+So, we have covered scraping text from (slightly) more complicated websites. 
+Now we will look at scraping tables. 
+
+## Scraping tables
+
+### Phoenix Suns 2022-2023 data
+
+::: {.column-margin}
+![](https://cdn.nba.com/teams/uploads/sites/1610612756/2022/08/suns-logo.svg)
+:::
+
+
+For this example we will scrape some data from the website [basketball-reference.com](www.basketball-reference.com). 
+Specifically, I am going to target some per-game data on the Phoenix Suns. 
+We can see their team stats here:  <https://www.basketball-reference.com/teams/PHO/2023.html>. 
+I will use the 'inspect element' trick I referenced above to find the information I need for the per-game table, but this time I am not looking for a specific tag like when I was interested in scraping text. 
+Luckily the process is a bit easier for tables (usually). 
+
+So I right-click to get the inspector window.
+Then I look for the table I am interested in. 
+Once I have highlighted the table I want in the inspector window, I can right-click and copy the `xpath`. 
+
+![The div tag I am hovering over highlights the table I want. Now I can right-click and copy the xpath.](./inspect3.png)
+
+</br>
+
+With the xpath copied to the clipboard, I am ready to code up the pipeline in R. 
+This will look just like our previous examples, though notice that now I am pasting the xpath in the `html_elements` function (as opposed to some css tags). 
+
+```{r}
+#| label: suns-per-game
+#| warning: false
+#| message: false
+# Basketball reference URL
+url_suns <- "https://www.basketball-reference.com/teams/PHO/2023.html"
+
+suns_per_game <- url_suns %>% 
+  read_html() %>% 
+  html_elements(xpath = '//*[@id="per_game"]') %>%
+  html_table() %>%
+  bind_rows() %>% 
+  rename(athlete = `...2`)
+```
+
+And I can put the resulting tibble in a nice table: 
+
+```{r}
+#| label: per-game-table
+#| code-fold: true
+suns_per_game %>% 
+  kbl() %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"), 
+    font_size = 12
+    ) %>% 
+  scroll_box(width = "100%", height = "500px")
+```
+
+</br>
+
+Now we can take a look at the data. 
+Who is the leading scorer?
+
+```{r}
+#| label: suns-ppg
+#| out.width: "100%"
+#| code-fold: true
+img_link <- "https://www.freepnglogos.com/uploads/basketball-png/basketball-open-letter-3.png"
+
+suns_per_game %>% 
+  mutate(athlete = fct_reorder(athlete, `PTS/G`, max), 
+         img = img_link) %>% 
+  ggplot(., aes(x = `PTS/G`, y = athlete)) + 
+    geom_segment(aes(x = 0, xend = `PTS/G`, yend = athlete), linewidth = 1) + 
+    geom_image(aes(image = img), size = 0.03) + 
+    labs(x = "Avg. points per game", y = "Athlete")
+```
+
+Who plays the most minutes?
+Does age have any effect on average minutes played?
+
+```{r}
+#| label: suns-salaries
+#| warning: false
+#| message: false
+#| code-fold: true
+#| out.width: "100%"
+#| fig.height: 5
+suns_per_game %>% 
+  mutate(img = case_when(
+    athlete == "Mikal Bridges"        ~ "https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg", 
+    athlete == "Devin Booker"         ~ "https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg",
+    athlete == "Deandre Ayton"        ~ "https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg",
+    athlete == "Chris Paul"           ~ "https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg",
+    athlete == "Jae Crowder"          ~ "https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg",
+    athlete == "Landry Shamet"        ~ "https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg",
+    athlete == "Dario Šarić"          ~ "https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg",
+    athlete == "Cameron Payne"        ~ "https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg",
+    athlete == "Cameron Johnson"      ~ "https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg",
+    athlete == "Torrey Craig"         ~ "https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg",
+    athlete == "Damion Lee"           ~ "https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg",
+    athlete == "Josh Okogie"          ~ "https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg",
+    athlete == "Bismack Biyombo"      ~ "https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg",
+    athlete == "Jock Landale"         ~ "https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg", 
+    athlete == "Duane Washington Jr." ~ "https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg", 
+    athlete == "Ish Wainright"        ~ "https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg", 
+  )) %>% 
+  ggplot(., aes(x = Age, y = MP)) + 
+    geom_image(aes(image = img), size = 0.075) + 
+    labs(x = "Age", y = "Avg. minutes per game")
+```
+
+Two of the younger players are getting lots of minutes, and Chris Paul, for his age, is also playing a lot of minutes. 
+
+## Wrapping up
+
+That seems like enough for now. 
+The main takeaway is that `rvest` makes it quite easy to scrape data from a website. 
+Knowing a bit of html is certainly helpful, but it's not a dealbreaker if you don't. 
+
+***
+
+Last update: `r format(Sys.Date())`.
+
+```{r}
+#| results: "markup"
+sessioninfo::session_info()
+```

@@ -112,7 +112,7 @@ quijote %>%
 ```
 
 The `html_text2` function extracted all of the text from within the \<p\> tags!
-Now, we'll finish of our pipe sequence by putting the output in a tibble. 
+Now, we'll finish off our pipe sequence by putting the output in a tibble. 
 Normally I would do all of this in one step, like this: 
 
 ```{r}
@@ -143,12 +143,12 @@ words <- quijote %>%
     value = str_remove_all(value, "\\?"), # remove question marks
     value = str_remove_all(value, "\\¿"), # remove question marks
     value = str_remove_all(value, "\\¡"), # remove exclamation points
-    value = str_remove_all(value, "\\!"), # remove periods
+    value = str_remove_all(value, "\\!"), # remove exclamation points
     value = str_split(value, " ")
   ) %>% 
   unlist() %>% 
   as_tibble() %>% 
-  filter(value != "") #%>% pull(value) %>% str_detect("") %>% sum
+  filter(value != "")
 ```
 
 The above code chunk removes some punctuation we aren't interested in and creates a data frame of a single column in which every row is a single workd. 

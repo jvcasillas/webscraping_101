@@ -253,7 +253,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  [ reached getOption("max.print") -- omitted 5050 entries ]</code></pre>
 </div>
 </div>
-<p>The <code>html_text2</code> function extracted all of the text from within the &lt;p&gt; tags! Now, we’ll finish of our pipe sequence by putting the output in a tibble. Normally I would do all of this in one step, like this:</p>
+<p>The <code>html_text2</code> function extracted all of the text from within the &lt;p&gt; tags! Now, we’ll finish off our pipe sequence by putting the output in a tibble. Normally I would do all of this in one step, like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>quijote <span class="ot">&lt;-</span> url_quijote <span class="sc">%&gt;%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span> </span>
@@ -275,12 +275,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">?"</span>), <span class="co"># remove question marks</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">¿"</span>), <span class="co"># remove question marks</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">¡"</span>), <span class="co"># remove exclamation points</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">!"</span>), <span class="co"># remove periods</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_remove_all</span>(value, <span class="st">"</span><span class="sc">\\</span><span class="st">!"</span>), <span class="co"># remove exclamation points</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">str_split</span>(value, <span class="st">" "</span>)</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">!=</span> <span class="st">""</span>) <span class="co">#%&gt;% pull(value) %&gt;% str_detect("") %&gt;% sum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">!=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The above code chunk removes some punctuation we aren’t interested in and creates a data frame of a single column in which every row is a single workd. There are 378754 words! Let’s grab the 50 most common and make a plot.</p>
 <div class="cell">

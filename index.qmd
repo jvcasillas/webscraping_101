@@ -31,6 +31,7 @@ library("stringr")
 library("forcats")
 library("ggplot2")
 library("kableExtra")
+library("gt")
 library("janitor")
 library("ggimage")
 
@@ -175,8 +176,8 @@ top_50 %>%
     theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
-If you've ever worked with a corpus of text before you probably weren't to surprised to see that the most frequent words aren't all that interesting (propositions, pronounds, etc.)... well, unless that is what you are looking for. 
-Anyway, I don't think we learn much from seeing the "que" is the most common word, but there are a few interesting nuggests in the top 50, like "merced", "Sancho", or "respondió". 
+If you've ever worked with a corpus of text before you probably weren't too surprised to see that the most frequent words aren't all that interesting (propositions, pronouns, etc.)... well, unless that is what you are looking for. 
+Anyway, I don't think we learn much from seeing the "que" is the most common word, but there are a few interesting nuggets in the top 50, like "merced", "Sancho", or "respondió". 
 If you really wanted to have fun with this corpus you would need to find a list Spanish stop words to filter out irrelevant words and possibly a sentiment dictionary. 
 You could, for example, compare sentiment scores of the most frequent words from part I vs. part II. 
 Anyway, let's move on to another example. 
@@ -209,7 +210,7 @@ url_nba %>%
 ```
 
 It looks like I am getting the info I want (lines 4-20), but also some info I don't want (lines 1-3). 
-This is because the \<p\> tags include the list I am interested but were also used for other information. 
+This is because the \<p\> tags include the list I am interested in, but were also used for other information. 
 This makes sense, the \<p\> tag is rather generic and used in many situations. 
 At this point I have two options. 
 I can work with this by filtering out the info I don't want or I can use more specific tags inside of `html_elements` to single out just the information I want. 
@@ -380,13 +381,37 @@ And I can put the resulting tibble in a nice table:
 ```{r}
 #| label: per-game-table
 #| code-fold: true
+
+img_urls <- tribble(
+  ~"athlete", ~"url", 
+   "Mikal Bridges"        , "https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg", 
+   "Devin Booker"         , "https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg",
+   "Deandre Ayton"        , "https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg",
+   "Chris Paul"           , "https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg",
+ #  "Jae Crowder"          , "https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg",
+   "Landry Shamet"        , "https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg",
+   "Dario Šarić"          , "https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg",
+   "Cameron Payne"        , "https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg",
+   "Cameron Johnson"      , "https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg",
+   "Torrey Craig"         , "https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg",
+   "Damion Lee"           , "https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg",
+   "Josh Okogie"          , "https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg",
+   "Bismack Biyombo"      , "https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg",
+   "Jock Landale"         , "https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg", 
+   "Duane Washington Jr." , "https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg", 
+   "Ish Wainright"        , "https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg", 
+)
+
 suns_per_game %>% 
-  kbl() %>% 
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "responsive"), 
-    font_size = 12
-    ) %>% 
-  scroll_box(width = "100%", height = "500px")
+  left_join(., img_urls, by = "athlete") %>% 
+  select(athlete, ` ` = url, everything()) %>% 
+  gt() %>% 
+  text_transform(
+    locations = cells_body(columns = c(` `)),
+    fn = function(x){
+      web_image(x)
+    }
+  )
 ```
 
 </br>
@@ -398,14 +423,14 @@ Who is the leading scorer?
 #| label: suns-ppg
 #| out.width: "100%"
 #| code-fold: true
-img_link <- "https://www.freepnglogos.com/uploads/basketball-png/basketball-open-letter-3.png"
+
 
 suns_per_game %>% 
-  mutate(athlete = fct_reorder(athlete, `PTS/G`, max), 
-         img = img_link) %>% 
+  left_join(., img_urls, by = "athlete") %>% 
+  mutate(athlete = fct_reorder(athlete, `PTS/G`, max)) %>% 
   ggplot(., aes(x = `PTS/G`, y = athlete)) + 
     geom_segment(aes(x = 0, xend = `PTS/G`, yend = athlete), linewidth = 1) + 
-    geom_image(aes(image = img), size = 0.03) + 
+    geom_image(aes(image = url), size = 0.04) + 
     labs(x = "Avg. points per game", y = "Athlete")
 ```
 
@@ -420,26 +445,9 @@ Does age have any effect on average minutes played?
 #| out.width: "100%"
 #| fig.height: 5
 suns_per_game %>% 
-  mutate(img = case_when(
-    athlete == "Mikal Bridges"        ~ "https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg", 
-    athlete == "Devin Booker"         ~ "https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg",
-    athlete == "Deandre Ayton"        ~ "https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg",
-    athlete == "Chris Paul"           ~ "https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg",
-    athlete == "Jae Crowder"          ~ "https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg",
-    athlete == "Landry Shamet"        ~ "https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg",
-    athlete == "Dario Šarić"          ~ "https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg",
-    athlete == "Cameron Payne"        ~ "https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg",
-    athlete == "Cameron Johnson"      ~ "https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg",
-    athlete == "Torrey Craig"         ~ "https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg",
-    athlete == "Damion Lee"           ~ "https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg",
-    athlete == "Josh Okogie"          ~ "https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg",
-    athlete == "Bismack Biyombo"      ~ "https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg",
-    athlete == "Jock Landale"         ~ "https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg", 
-    athlete == "Duane Washington Jr." ~ "https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg", 
-    athlete == "Ish Wainright"        ~ "https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg", 
-  )) %>% 
+  left_join(., img_urls, by = "athlete") %>% 
   ggplot(., aes(x = Age, y = MP)) + 
-    geom_image(aes(image = img), size = 0.075) + 
+    geom_image(aes(image = url), size = 0.075) + 
     labs(x = "Age", y = "Avg. minutes per game")
 ```
 

@@ -170,17 +170,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"forcats"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"kableExtra"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggimage"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cleaner plotting theme</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gt"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggimage"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cleaner plotting theme</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The important one of the group is <code>rvest</code>. This package provides several functions we’ll use to obtain html and parse it to text. Then we can do whatever we want with it, like put it in a dataframe.</p>
 </section>
@@ -304,7 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="index_files/figure-html/quijote-most-frequent-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<p>If you’ve ever worked with a corpus of text before you probably weren’t to surprised to see that the most frequent words aren’t all that interesting (propositions, pronounds, etc.)… well, unless that is what you are looking for. Anyway, I don’t think we learn much from seeing the “que” is the most common word, but there are a few interesting nuggests in the top 50, like “merced”, “Sancho”, or “respondió”. If you really wanted to have fun with this corpus you would need to find a list Spanish stop words to filter out irrelevant words and possibly a sentiment dictionary. You could, for example, compare sentiment scores of the most frequent words from part I vs.&nbsp;part II. Anyway, let’s move on to another example.</p>
+<p>If you’ve ever worked with a corpus of text before you probably weren’t too surprised to see that the most frequent words aren’t all that interesting (propositions, pronouns, etc.)… well, unless that is what you are looking for. Anyway, I don’t think we learn much from seeing the “que” is the most common word, but there are a few interesting nuggets in the top 50, like “merced”, “Sancho”, or “respondió”. If you really wanted to have fun with this corpus you would need to find a list Spanish stop words to filter out irrelevant words and possibly a sentiment dictionary. You could, for example, compare sentiment scores of the most frequent words from part I vs.&nbsp;part II. Anyway, let’s move on to another example.</p>
 </section>
 <section id="point-shooters" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="point-shooters">3-point shooters</h3>
@@ -345,7 +346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ...</code></pre>
 </div>
 </div>
-<p>It looks like I am getting the info I want (lines 4-20), but also some info I don’t want (lines 1-3). This is because the &lt;p&gt; tags include the list I am interested but were also used for other information. This makes sense, the &lt;p&gt; tag is rather generic and used in many situations. At this point I have two options. I can work with this by filtering out the info I don’t want or I can use more specific tags inside of <code>html_elements</code> to single out just the information I want. In this particular case, it probably isn’t a big deal to just do some post-processing on what <code>html_elements</code> is currently giving me, but I will work through getting better, more specific tags, which is a skill worth developing for more complicated webscraping situations.</p>
+<p>It looks like I am getting the info I want (lines 4-20), but also some info I don’t want (lines 1-3). This is because the &lt;p&gt; tags include the list I am interested in, but were also used for other information. This makes sense, the &lt;p&gt; tag is rather generic and used in many situations. At this point I have two options. I can work with this by filtering out the info I don’t want or I can use more specific tags inside of <code>html_elements</code> to single out just the information I want. In this particular case, it probably isn’t a big deal to just do some post-processing on what <code>html_elements</code> is currently giving me, but I will work through getting better, more specific tags, which is a skill worth developing for more complicated webscraping situations.</p>
 <p>In most browswers you can take a peek at the underlying html code by right-clicking anywhere on the webpage and selecting <code>Inspect element</code> (or something similar).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -753,503 +754,926 @@ iframe {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>), </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">font_size =</span> <span class="dv">12</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"500px"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>img_urls <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span><span class="st">"athlete"</span>, <span class="sc">~</span><span class="st">"url"</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Mikal Bridges"</span>        , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg"</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Devin Booker"</span>         , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Deandre Ayton"</span>        , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Chris Paul"</span>           , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a> <span class="co">#  "Jae Crowder"          , "https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg",</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Landry Shamet"</span>        , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg"</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Dario Šarić"</span>          , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Cameron Payne"</span>        , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Cameron Johnson"</span>      , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Torrey Craig"</span>         , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg"</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Damion Lee"</span>           , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Josh Okogie"</span>          , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg"</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Bismack Biyombo"</span>      , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg"</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Jock Landale"</span>         , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg"</span>, </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Duane Washington Jr."</span> , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg"</span>, </span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>   <span class="st">"Ish Wainright"</span>        , <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg"</span>, </span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., img_urls, <span class="at">by =</span> <span class="st">"athlete"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(athlete, <span class="st">`</span><span class="at"> </span><span class="st">`</span> <span class="ot">=</span> url, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text_transform</span>(</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at"> </span><span class="st">`</span>)),</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">fn =</span> <span class="cf">function</span>(x){</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">web_image</span>(x)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 12px; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Rk </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> athlete </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Age </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> G </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> GS </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> MP </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FG </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FGA </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FG% </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3P </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3PA </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 3P% </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2P </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2PA </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2P% </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> eFG% </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FT </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FTA </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> FT% </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> ORB </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> DRB </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> TRB </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> AST </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> STL </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> BLK </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> TOV </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> PF </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> PTS/G </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:left;"> Mikal Bridges </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 36.5 </td>
-   <td style="text-align:right;"> 6.0 </td>
-   <td style="text-align:right;"> 12.7 </td>
-   <td style="text-align:right;"> 0.469 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 4.5 </td>
-   <td style="text-align:right;"> 0.409 </td>
-   <td style="text-align:right;"> 4.1 </td>
-   <td style="text-align:right;"> 8.2 </td>
-   <td style="text-align:right;"> 0.502 </td>
-   <td style="text-align:right;"> 0.542 </td>
-   <td style="text-align:right;"> 2.1 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 0.906 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 3.8 </td>
-   <td style="text-align:right;"> 5.0 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 15.9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:left;"> Devin Booker </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 35.4 </td>
-   <td style="text-align:right;"> 9.8 </td>
-   <td style="text-align:right;"> 20.5 </td>
-   <td style="text-align:right;"> 0.478 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 6.2 </td>
-   <td style="text-align:right;"> 0.375 </td>
-   <td style="text-align:right;"> 7.5 </td>
-   <td style="text-align:right;"> 14.4 </td>
-   <td style="text-align:right;"> 0.521 </td>
-   <td style="text-align:right;"> 0.534 </td>
-   <td style="text-align:right;"> 5.5 </td>
-   <td style="text-align:right;"> 6.3 </td>
-   <td style="text-align:right;"> 0.866 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 4.0 </td>
-   <td style="text-align:right;"> 4.8 </td>
-   <td style="text-align:right;"> 5.8 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 2.5 </td>
-   <td style="text-align:right;"> 2.8 </td>
-   <td style="text-align:right;"> 27.4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;"> Chris Paul </td>
-   <td style="text-align:right;"> 37 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 30.9 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 8.8 </td>
-   <td style="text-align:right;"> 0.366 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 4.1 </td>
-   <td style="text-align:right;"> 0.298 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 4.7 </td>
-   <td style="text-align:right;"> 0.424 </td>
-   <td style="text-align:right;"> 0.435 </td>
-   <td style="text-align:right;"> 2.7 </td>
-   <td style="text-align:right;"> 3.1 </td>
-   <td style="text-align:right;"> 0.884 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 4.2 </td>
-   <td style="text-align:right;"> 4.7 </td>
-   <td style="text-align:right;"> 8.8 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 2.1 </td>
-   <td style="text-align:right;"> 2.6 </td>
-   <td style="text-align:right;"> 10.4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:left;"> Deandre Ayton </td>
-   <td style="text-align:right;"> 24 </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 28.8 </td>
-   <td style="text-align:right;"> 7.4 </td>
-   <td style="text-align:right;"> 12.0 </td>
-   <td style="text-align:right;"> 0.619 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 0.286 </td>
-   <td style="text-align:right;"> 7.3 </td>
-   <td style="text-align:right;"> 11.5 </td>
-   <td style="text-align:right;"> 0.634 </td>
-   <td style="text-align:right;"> 0.625 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.8 </td>
-   <td style="text-align:right;"> 0.722 </td>
-   <td style="text-align:right;"> 3.0 </td>
-   <td style="text-align:right;"> 6.5 </td>
-   <td style="text-align:right;"> 9.5 </td>
-   <td style="text-align:right;"> 2.2 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.9 </td>
-   <td style="text-align:right;"> 17.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:left;"> Cameron Johnson </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 25.3 </td>
-   <td style="text-align:right;"> 4.6 </td>
-   <td style="text-align:right;"> 10.4 </td>
-   <td style="text-align:right;"> 0.446 </td>
-   <td style="text-align:right;"> 2.8 </td>
-   <td style="text-align:right;"> 6.4 </td>
-   <td style="text-align:right;"> 0.431 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 4.0 </td>
-   <td style="text-align:right;"> 0.469 </td>
-   <td style="text-align:right;"> 0.578 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 0.727 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 2.8 </td>
-   <td style="text-align:right;"> 3.4 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 13.0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:left;"> Cameron Payne </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 24.8 </td>
-   <td style="text-align:right;"> 4.7 </td>
-   <td style="text-align:right;"> 11.4 </td>
-   <td style="text-align:right;"> 0.416 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 4.8 </td>
-   <td style="text-align:right;"> 0.387 </td>
-   <td style="text-align:right;"> 2.9 </td>
-   <td style="text-align:right;"> 6.6 </td>
-   <td style="text-align:right;"> 0.436 </td>
-   <td style="text-align:right;"> 0.497 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 0.766 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.4 </td>
-   <td style="text-align:right;"> 5.3 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.1 </td>
-   <td style="text-align:right;"> 12.7 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:left;"> Torrey Craig </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 17 </td>
-   <td style="text-align:right;"> 24.6 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 6.7 </td>
-   <td style="text-align:right;"> 0.470 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 3.6 </td>
-   <td style="text-align:right;"> 0.382 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 0.570 </td>
-   <td style="text-align:right;"> 0.571 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.824 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 5.2 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 8.2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:left;"> Damion Lee </td>
-   <td style="text-align:right;"> 30 </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 21.4 </td>
-   <td style="text-align:right;"> 2.8 </td>
-   <td style="text-align:right;"> 6.2 </td>
-   <td style="text-align:right;"> 0.454 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 3.9 </td>
-   <td style="text-align:right;"> 0.473 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 0.422 </td>
-   <td style="text-align:right;"> 0.603 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 0.920 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 2.7 </td>
-   <td style="text-align:right;"> 3.4 </td>
-   <td style="text-align:right;"> 1.3 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 8.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:left;"> Landry Shamet </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 19 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 16.8 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 5.6 </td>
-   <td style="text-align:right;"> 0.411 </td>
-   <td style="text-align:right;"> 1.6 </td>
-   <td style="text-align:right;"> 4.2 </td>
-   <td style="text-align:right;"> 0.380 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 0.500 </td>
-   <td style="text-align:right;"> 0.551 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 0.850 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 7.1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:left;"> Jock Landale </td>
-   <td style="text-align:right;"> 27 </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 13.0 </td>
-   <td style="text-align:right;"> 2.5 </td>
-   <td style="text-align:right;"> 4.7 </td>
-   <td style="text-align:right;"> 0.530 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 1.3 </td>
-   <td style="text-align:right;"> 0.156 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 3.4 </td>
-   <td style="text-align:right;"> 0.671 </td>
-   <td style="text-align:right;"> 0.551 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 0.784 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 3.5 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 6.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:left;"> Ish Wainright </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 12.5 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 2.6 </td>
-   <td style="text-align:right;"> 0.448 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 0.480 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 0.250 </td>
-   <td style="text-align:right;"> 0.655 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 0.667 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 3.6 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:left;"> Bismack Biyombo </td>
-   <td style="text-align:right;"> 30 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 12.3 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 2.6 </td>
-   <td style="text-align:right;"> 0.544 </td>
-   <td style="text-align:right;"> 0.0 </td>
-   <td style="text-align:right;"> 0.0 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 2.6 </td>
-   <td style="text-align:right;"> 0.544 </td>
-   <td style="text-align:right;"> 0.544 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.409 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.4 </td>
-   <td style="text-align:right;"> 3.4 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 0.3 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 3.2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:left;"> Dario Šarić </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 12.0 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 3.9 </td>
-   <td style="text-align:right;"> 0.345 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 1.8 </td>
-   <td style="text-align:right;"> 0.320 </td>
-   <td style="text-align:right;"> 0.8 </td>
-   <td style="text-align:right;"> 2.1 </td>
-   <td style="text-align:right;"> 0.367 </td>
-   <td style="text-align:right;"> 0.418 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.778 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 2.3 </td>
-   <td style="text-align:right;"> 3.4 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 0.2 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 1.6 </td>
-   <td style="text-align:right;"> 3.8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:left;"> Josh Okogie </td>
-   <td style="text-align:right;"> 24 </td>
-   <td style="text-align:right;"> 24 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 9.5 </td>
-   <td style="text-align:right;"> 1.3 </td>
-   <td style="text-align:right;"> 3.2 </td>
-   <td style="text-align:right;"> 0.395 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 1.5 </td>
-   <td style="text-align:right;"> 0.257 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 1.7 </td>
-   <td style="text-align:right;"> 0.512 </td>
-   <td style="text-align:right;"> 0.454 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 0.724 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.4 </td>
-   <td style="text-align:right;"> 2.4 </td>
-   <td style="text-align:right;"> 0.9 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.4 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 1.3 </td>
-   <td style="text-align:right;"> 3.8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:left;"> Duane Washington Jr. </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 9.0 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 5.1 </td>
-   <td style="text-align:right;"> 0.377 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 2.6 </td>
-   <td style="text-align:right;"> 0.282 </td>
-   <td style="text-align:right;"> 1.2 </td>
-   <td style="text-align:right;"> 2.5 </td>
-   <td style="text-align:right;"> 0.474 </td>
-   <td style="text-align:right;"> 0.448 </td>
-   <td style="text-align:right;"> 0.0 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.000 </td>
-   <td style="text-align:right;"> 0.0 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.7 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.1 </td>
-   <td style="text-align:right;"> 0.6 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 4.6 </td>
-  </tr>
-</tbody>
-</table></div>
+<div id="yctwlgwufq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
 
+:where(#yctwlgwufq) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#yctwlgwufq) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#yctwlgwufq) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#yctwlgwufq) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#yctwlgwufq) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#yctwlgwufq) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#yctwlgwufq) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#yctwlgwufq) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#yctwlgwufq) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#yctwlgwufq) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#yctwlgwufq) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#yctwlgwufq) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#yctwlgwufq) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#yctwlgwufq) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#yctwlgwufq) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#yctwlgwufq) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#yctwlgwufq) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#yctwlgwufq) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#yctwlgwufq) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#yctwlgwufq) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#yctwlgwufq) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#yctwlgwufq) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#yctwlgwufq) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#yctwlgwufq) .gt_left {
+  text-align: left;
+}
+
+:where(#yctwlgwufq) .gt_center {
+  text-align: center;
+}
+
+:where(#yctwlgwufq) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#yctwlgwufq) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#yctwlgwufq) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#yctwlgwufq) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#yctwlgwufq) .gt_super {
+  font-size: 65%;
+}
+
+:where(#yctwlgwufq) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#yctwlgwufq) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#yctwlgwufq) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#yctwlgwufq) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#yctwlgwufq) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#yctwlgwufq) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#yctwlgwufq) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="athlete">athlete</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Rk">Rk</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="G">G</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="GS">GS</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MP">MP</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FG">FG</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FGA">FGA</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FG%">FG%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="3P">3P</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="3PA">3PA</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="3P%">3P%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2P">2P</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2PA">2PA</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="2P%">2P%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="eFG%">eFG%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FT">FT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FTA">FTA</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="FT%">FT%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ORB">ORB</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DRB">DRB</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="TRB">TRB</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AST">AST</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="STL">STL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BLK">BLK</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="TOV">TOV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PF">PF</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PTS/G">PTS/G</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="athlete" class="gt_row gt_left">Mikal Bridges</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">1</td>
+<td headers="Age" class="gt_row gt_right">26</td>
+<td headers="G" class="gt_row gt_right">28</td>
+<td headers="GS" class="gt_row gt_right">28</td>
+<td headers="MP" class="gt_row gt_right">36.5</td>
+<td headers="FG" class="gt_row gt_right">6.0</td>
+<td headers="FGA" class="gt_row gt_right">12.7</td>
+<td headers="FG%" class="gt_row gt_right">0.469</td>
+<td headers="3P" class="gt_row gt_right">1.9</td>
+<td headers="3PA" class="gt_row gt_right">4.5</td>
+<td headers="3P%" class="gt_row gt_right">0.409</td>
+<td headers="2P" class="gt_row gt_right">4.1</td>
+<td headers="2PA" class="gt_row gt_right">8.2</td>
+<td headers="2P%" class="gt_row gt_right">0.502</td>
+<td headers="eFG%" class="gt_row gt_right">0.542</td>
+<td headers="FT" class="gt_row gt_right">2.1</td>
+<td headers="FTA" class="gt_row gt_right">2.3</td>
+<td headers="FT%" class="gt_row gt_right">0.906</td>
+<td headers="ORB" class="gt_row gt_right">1.2</td>
+<td headers="DRB" class="gt_row gt_right">3.8</td>
+<td headers="TRB" class="gt_row gt_right">5.0</td>
+<td headers="AST" class="gt_row gt_right">3.2</td>
+<td headers="STL" class="gt_row gt_right">1.2</td>
+<td headers="BLK" class="gt_row gt_right">0.8</td>
+<td headers="TOV" class="gt_row gt_right">1.1</td>
+<td headers="PF" class="gt_row gt_right">2.3</td>
+<td headers="PTS/G" class="gt_row gt_right">15.9</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Devin Booker</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">2</td>
+<td headers="Age" class="gt_row gt_right">26</td>
+<td headers="G" class="gt_row gt_right">26</td>
+<td headers="GS" class="gt_row gt_right">26</td>
+<td headers="MP" class="gt_row gt_right">35.4</td>
+<td headers="FG" class="gt_row gt_right">9.8</td>
+<td headers="FGA" class="gt_row gt_right">20.5</td>
+<td headers="FG%" class="gt_row gt_right">0.478</td>
+<td headers="3P" class="gt_row gt_right">2.3</td>
+<td headers="3PA" class="gt_row gt_right">6.2</td>
+<td headers="3P%" class="gt_row gt_right">0.375</td>
+<td headers="2P" class="gt_row gt_right">7.5</td>
+<td headers="2PA" class="gt_row gt_right">14.4</td>
+<td headers="2P%" class="gt_row gt_right">0.521</td>
+<td headers="eFG%" class="gt_row gt_right">0.534</td>
+<td headers="FT" class="gt_row gt_right">5.5</td>
+<td headers="FTA" class="gt_row gt_right">6.3</td>
+<td headers="FT%" class="gt_row gt_right">0.866</td>
+<td headers="ORB" class="gt_row gt_right">0.8</td>
+<td headers="DRB" class="gt_row gt_right">4.0</td>
+<td headers="TRB" class="gt_row gt_right">4.8</td>
+<td headers="AST" class="gt_row gt_right">5.8</td>
+<td headers="STL" class="gt_row gt_right">1.0</td>
+<td headers="BLK" class="gt_row gt_right">0.4</td>
+<td headers="TOV" class="gt_row gt_right">2.5</td>
+<td headers="PF" class="gt_row gt_right">2.8</td>
+<td headers="PTS/G" class="gt_row gt_right">27.4</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Chris Paul</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">3</td>
+<td headers="Age" class="gt_row gt_right">37</td>
+<td headers="G" class="gt_row gt_right">14</td>
+<td headers="GS" class="gt_row gt_right">14</td>
+<td headers="MP" class="gt_row gt_right">30.9</td>
+<td headers="FG" class="gt_row gt_right">3.2</td>
+<td headers="FGA" class="gt_row gt_right">8.8</td>
+<td headers="FG%" class="gt_row gt_right">0.366</td>
+<td headers="3P" class="gt_row gt_right">1.2</td>
+<td headers="3PA" class="gt_row gt_right">4.1</td>
+<td headers="3P%" class="gt_row gt_right">0.298</td>
+<td headers="2P" class="gt_row gt_right">2.0</td>
+<td headers="2PA" class="gt_row gt_right">4.7</td>
+<td headers="2P%" class="gt_row gt_right">0.424</td>
+<td headers="eFG%" class="gt_row gt_right">0.435</td>
+<td headers="FT" class="gt_row gt_right">2.7</td>
+<td headers="FTA" class="gt_row gt_right">3.1</td>
+<td headers="FT%" class="gt_row gt_right">0.884</td>
+<td headers="ORB" class="gt_row gt_right">0.5</td>
+<td headers="DRB" class="gt_row gt_right">4.2</td>
+<td headers="TRB" class="gt_row gt_right">4.7</td>
+<td headers="AST" class="gt_row gt_right">8.8</td>
+<td headers="STL" class="gt_row gt_right">1.5</td>
+<td headers="BLK" class="gt_row gt_right">0.2</td>
+<td headers="TOV" class="gt_row gt_right">2.1</td>
+<td headers="PF" class="gt_row gt_right">2.6</td>
+<td headers="PTS/G" class="gt_row gt_right">10.4</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Deandre Ayton</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">4</td>
+<td headers="Age" class="gt_row gt_right">24</td>
+<td headers="G" class="gt_row gt_right">26</td>
+<td headers="GS" class="gt_row gt_right">26</td>
+<td headers="MP" class="gt_row gt_right">28.8</td>
+<td headers="FG" class="gt_row gt_right">7.4</td>
+<td headers="FGA" class="gt_row gt_right">12.0</td>
+<td headers="FG%" class="gt_row gt_right">0.619</td>
+<td headers="3P" class="gt_row gt_right">0.2</td>
+<td headers="3PA" class="gt_row gt_right">0.5</td>
+<td headers="3P%" class="gt_row gt_right">0.286</td>
+<td headers="2P" class="gt_row gt_right">7.3</td>
+<td headers="2PA" class="gt_row gt_right">11.5</td>
+<td headers="2P%" class="gt_row gt_right">0.634</td>
+<td headers="eFG%" class="gt_row gt_right">0.625</td>
+<td headers="FT" class="gt_row gt_right">2.0</td>
+<td headers="FTA" class="gt_row gt_right">2.8</td>
+<td headers="FT%" class="gt_row gt_right">0.722</td>
+<td headers="ORB" class="gt_row gt_right">3.0</td>
+<td headers="DRB" class="gt_row gt_right">6.5</td>
+<td headers="TRB" class="gt_row gt_right">9.5</td>
+<td headers="AST" class="gt_row gt_right">2.2</td>
+<td headers="STL" class="gt_row gt_right">0.5</td>
+<td headers="BLK" class="gt_row gt_right">0.8</td>
+<td headers="TOV" class="gt_row gt_right">2.0</td>
+<td headers="PF" class="gt_row gt_right">2.9</td>
+<td headers="PTS/G" class="gt_row gt_right">17.0</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Cameron Johnson</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">5</td>
+<td headers="Age" class="gt_row gt_right">26</td>
+<td headers="G" class="gt_row gt_right">8</td>
+<td headers="GS" class="gt_row gt_right">8</td>
+<td headers="MP" class="gt_row gt_right">25.3</td>
+<td headers="FG" class="gt_row gt_right">4.6</td>
+<td headers="FGA" class="gt_row gt_right">10.4</td>
+<td headers="FG%" class="gt_row gt_right">0.446</td>
+<td headers="3P" class="gt_row gt_right">2.8</td>
+<td headers="3PA" class="gt_row gt_right">6.4</td>
+<td headers="3P%" class="gt_row gt_right">0.431</td>
+<td headers="2P" class="gt_row gt_right">1.9</td>
+<td headers="2PA" class="gt_row gt_right">4.0</td>
+<td headers="2P%" class="gt_row gt_right">0.469</td>
+<td headers="eFG%" class="gt_row gt_right">0.578</td>
+<td headers="FT" class="gt_row gt_right">1.0</td>
+<td headers="FTA" class="gt_row gt_right">1.4</td>
+<td headers="FT%" class="gt_row gt_right">0.727</td>
+<td headers="ORB" class="gt_row gt_right">0.6</td>
+<td headers="DRB" class="gt_row gt_right">2.8</td>
+<td headers="TRB" class="gt_row gt_right">3.4</td>
+<td headers="AST" class="gt_row gt_right">1.8</td>
+<td headers="STL" class="gt_row gt_right">1.1</td>
+<td headers="BLK" class="gt_row gt_right">0.4</td>
+<td headers="TOV" class="gt_row gt_right">0.3</td>
+<td headers="PF" class="gt_row gt_right">1.8</td>
+<td headers="PTS/G" class="gt_row gt_right">13.0</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Cameron Payne</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">6</td>
+<td headers="Age" class="gt_row gt_right">28</td>
+<td headers="G" class="gt_row gt_right">26</td>
+<td headers="GS" class="gt_row gt_right">14</td>
+<td headers="MP" class="gt_row gt_right">24.8</td>
+<td headers="FG" class="gt_row gt_right">4.7</td>
+<td headers="FGA" class="gt_row gt_right">11.4</td>
+<td headers="FG%" class="gt_row gt_right">0.416</td>
+<td headers="3P" class="gt_row gt_right">1.8</td>
+<td headers="3PA" class="gt_row gt_right">4.8</td>
+<td headers="3P%" class="gt_row gt_right">0.387</td>
+<td headers="2P" class="gt_row gt_right">2.9</td>
+<td headers="2PA" class="gt_row gt_right">6.6</td>
+<td headers="2P%" class="gt_row gt_right">0.436</td>
+<td headers="eFG%" class="gt_row gt_right">0.497</td>
+<td headers="FT" class="gt_row gt_right">1.4</td>
+<td headers="FTA" class="gt_row gt_right">1.8</td>
+<td headers="FT%" class="gt_row gt_right">0.766</td>
+<td headers="ORB" class="gt_row gt_right">0.3</td>
+<td headers="DRB" class="gt_row gt_right">2.0</td>
+<td headers="TRB" class="gt_row gt_right">2.4</td>
+<td headers="AST" class="gt_row gt_right">5.3</td>
+<td headers="STL" class="gt_row gt_right">1.0</td>
+<td headers="BLK" class="gt_row gt_right">0.2</td>
+<td headers="TOV" class="gt_row gt_right">2.0</td>
+<td headers="PF" class="gt_row gt_right">2.1</td>
+<td headers="PTS/G" class="gt_row gt_right">12.7</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Torrey Craig</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">7</td>
+<td headers="Age" class="gt_row gt_right">32</td>
+<td headers="G" class="gt_row gt_right">25</td>
+<td headers="GS" class="gt_row gt_right">17</td>
+<td headers="MP" class="gt_row gt_right">24.6</td>
+<td headers="FG" class="gt_row gt_right">3.2</td>
+<td headers="FGA" class="gt_row gt_right">6.7</td>
+<td headers="FG%" class="gt_row gt_right">0.470</td>
+<td headers="3P" class="gt_row gt_right">1.4</td>
+<td headers="3PA" class="gt_row gt_right">3.6</td>
+<td headers="3P%" class="gt_row gt_right">0.382</td>
+<td headers="2P" class="gt_row gt_right">1.8</td>
+<td headers="2PA" class="gt_row gt_right">3.2</td>
+<td headers="2P%" class="gt_row gt_right">0.570</td>
+<td headers="eFG%" class="gt_row gt_right">0.571</td>
+<td headers="FT" class="gt_row gt_right">0.6</td>
+<td headers="FTA" class="gt_row gt_right">0.7</td>
+<td headers="FT%" class="gt_row gt_right">0.824</td>
+<td headers="ORB" class="gt_row gt_right">2.0</td>
+<td headers="DRB" class="gt_row gt_right">3.2</td>
+<td headers="TRB" class="gt_row gt_right">5.2</td>
+<td headers="AST" class="gt_row gt_right">1.5</td>
+<td headers="STL" class="gt_row gt_right">0.6</td>
+<td headers="BLK" class="gt_row gt_right">0.7</td>
+<td headers="TOV" class="gt_row gt_right">0.7</td>
+<td headers="PF" class="gt_row gt_right">2.3</td>
+<td headers="PTS/G" class="gt_row gt_right">8.2</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Damion Lee</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">8</td>
+<td headers="Age" class="gt_row gt_right">30</td>
+<td headers="G" class="gt_row gt_right">28</td>
+<td headers="GS" class="gt_row gt_right">0</td>
+<td headers="MP" class="gt_row gt_right">21.4</td>
+<td headers="FG" class="gt_row gt_right">2.8</td>
+<td headers="FGA" class="gt_row gt_right">6.2</td>
+<td headers="FG%" class="gt_row gt_right">0.454</td>
+<td headers="3P" class="gt_row gt_right">1.9</td>
+<td headers="3PA" class="gt_row gt_right">3.9</td>
+<td headers="3P%" class="gt_row gt_right">0.473</td>
+<td headers="2P" class="gt_row gt_right">1.0</td>
+<td headers="2PA" class="gt_row gt_right">2.3</td>
+<td headers="2P%" class="gt_row gt_right">0.422</td>
+<td headers="eFG%" class="gt_row gt_right">0.603</td>
+<td headers="FT" class="gt_row gt_right">0.8</td>
+<td headers="FTA" class="gt_row gt_right">0.9</td>
+<td headers="FT%" class="gt_row gt_right">0.920</td>
+<td headers="ORB" class="gt_row gt_right">0.7</td>
+<td headers="DRB" class="gt_row gt_right">2.7</td>
+<td headers="TRB" class="gt_row gt_right">3.4</td>
+<td headers="AST" class="gt_row gt_right">1.3</td>
+<td headers="STL" class="gt_row gt_right">0.5</td>
+<td headers="BLK" class="gt_row gt_right">0.1</td>
+<td headers="TOV" class="gt_row gt_right">0.8</td>
+<td headers="PF" class="gt_row gt_right">1.5</td>
+<td headers="PTS/G" class="gt_row gt_right">8.3</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Landry Shamet</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">9</td>
+<td headers="Age" class="gt_row gt_right">25</td>
+<td headers="G" class="gt_row gt_right">19</td>
+<td headers="GS" class="gt_row gt_right">1</td>
+<td headers="MP" class="gt_row gt_right">16.8</td>
+<td headers="FG" class="gt_row gt_right">2.3</td>
+<td headers="FGA" class="gt_row gt_right">5.6</td>
+<td headers="FG%" class="gt_row gt_right">0.411</td>
+<td headers="3P" class="gt_row gt_right">1.6</td>
+<td headers="3PA" class="gt_row gt_right">4.2</td>
+<td headers="3P%" class="gt_row gt_right">0.380</td>
+<td headers="2P" class="gt_row gt_right">0.7</td>
+<td headers="2PA" class="gt_row gt_right">1.5</td>
+<td headers="2P%" class="gt_row gt_right">0.500</td>
+<td headers="eFG%" class="gt_row gt_right">0.551</td>
+<td headers="FT" class="gt_row gt_right">0.9</td>
+<td headers="FTA" class="gt_row gt_right">1.1</td>
+<td headers="FT%" class="gt_row gt_right">0.850</td>
+<td headers="ORB" class="gt_row gt_right">0.3</td>
+<td headers="DRB" class="gt_row gt_right">0.7</td>
+<td headers="TRB" class="gt_row gt_right">1.0</td>
+<td headers="AST" class="gt_row gt_right">1.4</td>
+<td headers="STL" class="gt_row gt_right">0.7</td>
+<td headers="BLK" class="gt_row gt_right">0.2</td>
+<td headers="TOV" class="gt_row gt_right">0.9</td>
+<td headers="PF" class="gt_row gt_right">1.4</td>
+<td headers="PTS/G" class="gt_row gt_right">7.1</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Jock Landale</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">10</td>
+<td headers="Age" class="gt_row gt_right">27</td>
+<td headers="G" class="gt_row gt_right">25</td>
+<td headers="GS" class="gt_row gt_right">0</td>
+<td headers="MP" class="gt_row gt_right">13.0</td>
+<td headers="FG" class="gt_row gt_right">2.5</td>
+<td headers="FGA" class="gt_row gt_right">4.7</td>
+<td headers="FG%" class="gt_row gt_right">0.530</td>
+<td headers="3P" class="gt_row gt_right">0.2</td>
+<td headers="3PA" class="gt_row gt_right">1.3</td>
+<td headers="3P%" class="gt_row gt_right">0.156</td>
+<td headers="2P" class="gt_row gt_right">2.3</td>
+<td headers="2PA" class="gt_row gt_right">3.4</td>
+<td headers="2P%" class="gt_row gt_right">0.671</td>
+<td headers="eFG%" class="gt_row gt_right">0.551</td>
+<td headers="FT" class="gt_row gt_right">1.2</td>
+<td headers="FTA" class="gt_row gt_right">1.5</td>
+<td headers="FT%" class="gt_row gt_right">0.784</td>
+<td headers="ORB" class="gt_row gt_right">1.5</td>
+<td headers="DRB" class="gt_row gt_right">2.0</td>
+<td headers="TRB" class="gt_row gt_right">3.5</td>
+<td headers="AST" class="gt_row gt_right">0.7</td>
+<td headers="STL" class="gt_row gt_right">0.2</td>
+<td headers="BLK" class="gt_row gt_right">0.7</td>
+<td headers="TOV" class="gt_row gt_right">0.8</td>
+<td headers="PF" class="gt_row gt_right">1.9</td>
+<td headers="PTS/G" class="gt_row gt_right">6.3</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Ish Wainright</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">11</td>
+<td headers="Age" class="gt_row gt_right">28</td>
+<td headers="G" class="gt_row gt_right">11</td>
+<td headers="GS" class="gt_row gt_right">1</td>
+<td headers="MP" class="gt_row gt_right">12.5</td>
+<td headers="FG" class="gt_row gt_right">1.2</td>
+<td headers="FGA" class="gt_row gt_right">2.6</td>
+<td headers="FG%" class="gt_row gt_right">0.448</td>
+<td headers="3P" class="gt_row gt_right">1.1</td>
+<td headers="3PA" class="gt_row gt_right">2.3</td>
+<td headers="3P%" class="gt_row gt_right">0.480</td>
+<td headers="2P" class="gt_row gt_right">0.1</td>
+<td headers="2PA" class="gt_row gt_right">0.4</td>
+<td headers="2P%" class="gt_row gt_right">0.250</td>
+<td headers="eFG%" class="gt_row gt_right">0.655</td>
+<td headers="FT" class="gt_row gt_right">0.2</td>
+<td headers="FTA" class="gt_row gt_right">0.3</td>
+<td headers="FT%" class="gt_row gt_right">0.667</td>
+<td headers="ORB" class="gt_row gt_right">0.8</td>
+<td headers="DRB" class="gt_row gt_right">1.0</td>
+<td headers="TRB" class="gt_row gt_right">1.8</td>
+<td headers="AST" class="gt_row gt_right">1.0</td>
+<td headers="STL" class="gt_row gt_right">0.5</td>
+<td headers="BLK" class="gt_row gt_right">0.2</td>
+<td headers="TOV" class="gt_row gt_right">0.3</td>
+<td headers="PF" class="gt_row gt_right">1.5</td>
+<td headers="PTS/G" class="gt_row gt_right">3.6</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Bismack Biyombo</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">12</td>
+<td headers="Age" class="gt_row gt_right">30</td>
+<td headers="G" class="gt_row gt_right">22</td>
+<td headers="GS" class="gt_row gt_right">2</td>
+<td headers="MP" class="gt_row gt_right">12.3</td>
+<td headers="FG" class="gt_row gt_right">1.4</td>
+<td headers="FGA" class="gt_row gt_right">2.6</td>
+<td headers="FG%" class="gt_row gt_right">0.544</td>
+<td headers="3P" class="gt_row gt_right">0.0</td>
+<td headers="3PA" class="gt_row gt_right">0.0</td>
+<td headers="3P%" class="gt_row gt_right">NA</td>
+<td headers="2P" class="gt_row gt_right">1.4</td>
+<td headers="2PA" class="gt_row gt_right">2.6</td>
+<td headers="2P%" class="gt_row gt_right">0.544</td>
+<td headers="eFG%" class="gt_row gt_right">0.544</td>
+<td headers="FT" class="gt_row gt_right">0.4</td>
+<td headers="FTA" class="gt_row gt_right">1.0</td>
+<td headers="FT%" class="gt_row gt_right">0.409</td>
+<td headers="ORB" class="gt_row gt_right">1.0</td>
+<td headers="DRB" class="gt_row gt_right">2.4</td>
+<td headers="TRB" class="gt_row gt_right">3.4</td>
+<td headers="AST" class="gt_row gt_right">0.8</td>
+<td headers="STL" class="gt_row gt_right">0.3</td>
+<td headers="BLK" class="gt_row gt_right">1.5</td>
+<td headers="TOV" class="gt_row gt_right">1.0</td>
+<td headers="PF" class="gt_row gt_right">1.8</td>
+<td headers="PTS/G" class="gt_row gt_right">3.2</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Dario Šarić</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">13</td>
+<td headers="Age" class="gt_row gt_right">28</td>
+<td headers="G" class="gt_row gt_right">14</td>
+<td headers="GS" class="gt_row gt_right">3</td>
+<td headers="MP" class="gt_row gt_right">12.0</td>
+<td headers="FG" class="gt_row gt_right">1.4</td>
+<td headers="FGA" class="gt_row gt_right">3.9</td>
+<td headers="FG%" class="gt_row gt_right">0.345</td>
+<td headers="3P" class="gt_row gt_right">0.6</td>
+<td headers="3PA" class="gt_row gt_right">1.8</td>
+<td headers="3P%" class="gt_row gt_right">0.320</td>
+<td headers="2P" class="gt_row gt_right">0.8</td>
+<td headers="2PA" class="gt_row gt_right">2.1</td>
+<td headers="2P%" class="gt_row gt_right">0.367</td>
+<td headers="eFG%" class="gt_row gt_right">0.418</td>
+<td headers="FT" class="gt_row gt_right">0.5</td>
+<td headers="FTA" class="gt_row gt_right">0.6</td>
+<td headers="FT%" class="gt_row gt_right">0.778</td>
+<td headers="ORB" class="gt_row gt_right">1.1</td>
+<td headers="DRB" class="gt_row gt_right">2.3</td>
+<td headers="TRB" class="gt_row gt_right">3.4</td>
+<td headers="AST" class="gt_row gt_right">1.1</td>
+<td headers="STL" class="gt_row gt_right">0.2</td>
+<td headers="BLK" class="gt_row gt_right">0.1</td>
+<td headers="TOV" class="gt_row gt_right">0.6</td>
+<td headers="PF" class="gt_row gt_right">1.6</td>
+<td headers="PTS/G" class="gt_row gt_right">3.8</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Josh Okogie</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">14</td>
+<td headers="Age" class="gt_row gt_right">24</td>
+<td headers="G" class="gt_row gt_right">24</td>
+<td headers="GS" class="gt_row gt_right">0</td>
+<td headers="MP" class="gt_row gt_right">9.5</td>
+<td headers="FG" class="gt_row gt_right">1.3</td>
+<td headers="FGA" class="gt_row gt_right">3.2</td>
+<td headers="FG%" class="gt_row gt_right">0.395</td>
+<td headers="3P" class="gt_row gt_right">0.4</td>
+<td headers="3PA" class="gt_row gt_right">1.5</td>
+<td headers="3P%" class="gt_row gt_right">0.257</td>
+<td headers="2P" class="gt_row gt_right">0.9</td>
+<td headers="2PA" class="gt_row gt_right">1.7</td>
+<td headers="2P%" class="gt_row gt_right">0.512</td>
+<td headers="eFG%" class="gt_row gt_right">0.454</td>
+<td headers="FT" class="gt_row gt_right">0.9</td>
+<td headers="FTA" class="gt_row gt_right">1.2</td>
+<td headers="FT%" class="gt_row gt_right">0.724</td>
+<td headers="ORB" class="gt_row gt_right">1.0</td>
+<td headers="DRB" class="gt_row gt_right">1.4</td>
+<td headers="TRB" class="gt_row gt_right">2.4</td>
+<td headers="AST" class="gt_row gt_right">0.9</td>
+<td headers="STL" class="gt_row gt_right">0.6</td>
+<td headers="BLK" class="gt_row gt_right">0.4</td>
+<td headers="TOV" class="gt_row gt_right">0.6</td>
+<td headers="PF" class="gt_row gt_right">1.3</td>
+<td headers="PTS/G" class="gt_row gt_right">3.8</td></tr>
+    <tr><td headers="athlete" class="gt_row gt_left">Duane Washington Jr.</td>
+<td headers="" class="gt_row gt_left"><img src="https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg" style="height:30px;"></td>
+<td headers="Rk" class="gt_row gt_right">15</td>
+<td headers="Age" class="gt_row gt_right">22</td>
+<td headers="G" class="gt_row gt_right">15</td>
+<td headers="GS" class="gt_row gt_right">0</td>
+<td headers="MP" class="gt_row gt_right">9.0</td>
+<td headers="FG" class="gt_row gt_right">1.9</td>
+<td headers="FGA" class="gt_row gt_right">5.1</td>
+<td headers="FG%" class="gt_row gt_right">0.377</td>
+<td headers="3P" class="gt_row gt_right">0.7</td>
+<td headers="3PA" class="gt_row gt_right">2.6</td>
+<td headers="3P%" class="gt_row gt_right">0.282</td>
+<td headers="2P" class="gt_row gt_right">1.2</td>
+<td headers="2PA" class="gt_row gt_right">2.5</td>
+<td headers="2P%" class="gt_row gt_right">0.474</td>
+<td headers="eFG%" class="gt_row gt_right">0.448</td>
+<td headers="FT" class="gt_row gt_right">0.0</td>
+<td headers="FTA" class="gt_row gt_right">0.1</td>
+<td headers="FT%" class="gt_row gt_right">0.000</td>
+<td headers="ORB" class="gt_row gt_right">0.0</td>
+<td headers="DRB" class="gt_row gt_right">0.6</td>
+<td headers="TRB" class="gt_row gt_right">0.6</td>
+<td headers="AST" class="gt_row gt_right">0.7</td>
+<td headers="STL" class="gt_row gt_right">0.1</td>
+<td headers="BLK" class="gt_row gt_right">0.1</td>
+<td headers="TOV" class="gt_row gt_right">0.6</td>
+<td headers="PF" class="gt_row gt_right">0.5</td>
+<td headers="PTS/G" class="gt_row gt_right">4.6</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
 </div>
 </div>
 <p><br></p>
@@ -1257,15 +1681,13 @@ iframe {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>img_link <span class="ot">&lt;-</span> <span class="st">"https://www.freepnglogos.com/uploads/basketball-png/basketball-open-letter-3.png"</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, max), </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">img =</span> img_link) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> img), <span class="at">size =</span> <span class="fl">0.03</span>) <span class="sc">+</span> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Avg. points per game"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., img_urls, <span class="at">by =</span> <span class="st">"athlete"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, max)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> <span class="st">`</span><span class="at">PTS/G</span><span class="st">`</span>, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> url), <span class="at">size =</span> <span class="fl">0.04</span>) <span class="sc">+</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Avg. points per game"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/suns-ppg-1.png" class="img-fluid" style="width:100.0%"></p>
@@ -1276,27 +1698,10 @@ iframe {
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>suns_per_game <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">img =</span> <span class="fu">case_when</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Mikal Bridges"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bridgmi01.jpg"</span>, </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Devin Booker"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/bookede01.jpg"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Deandre Ayton"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/aytonde01.jpg"</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Chris Paul"</span>           <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/paulch01.jpg"</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Jae Crowder"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/crowdja01.jpg"</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Landry Shamet"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/shamela01.jpg"</span>,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Dario Šarić"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/saricda01.jpg"</span>,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Cameron Payne"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/payneca01.jpg"</span>,</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Cameron Johnson"</span>      <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/johnsca02.jpg"</span>,</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Torrey Craig"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/craigto01.jpg"</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Damion Lee"</span>           <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/leeda03.jpg"</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Josh Okogie"</span>          <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/okogijo01.jpg"</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Bismack Biyombo"</span>      <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/biyombi01.jpg"</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Jock Landale"</span>         <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/landajo01.jpg"</span>, </span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Duane Washington Jr."</span> <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/washidu02.jpg"</span>, </span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    athlete <span class="sc">==</span> <span class="st">"Ish Wainright"</span>        <span class="sc">~</span> <span class="st">"https://www.basketball-reference.com/req/202106291/images/players/wainris01.jpg"</span>, </span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MP)) <span class="sc">+</span> </span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> img), <span class="at">size =</span> <span class="fl">0.075</span>) <span class="sc">+</span> </span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Avg. minutes per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., img_urls, <span class="at">by =</span> <span class="st">"athlete"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MP)) <span class="sc">+</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> url), <span class="at">size =</span> <span class="fl">0.075</span>) <span class="sc">+</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Avg. minutes per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/suns-salaries-1.png" class="img-fluid" style="width:100.0%"></p>
@@ -1348,6 +1753,7 @@ iframe {
  ggplotify      0.1.0   2021-09-02 [1] CRAN (R 4.2.0)
  glue           1.6.2   2022-02-24 [1] CRAN (R 4.2.0)
  gridGraphics   0.5-1   2020-12-13 [1] CRAN (R 4.2.0)
+ gt           * 0.8.0   2022-11-16 [1] CRAN (R 4.2.0)
  gtable         0.3.1   2022-09-01 [1] CRAN (R 4.2.0)
  highr          0.9     2021-04-16 [1] CRAN (R 4.2.0)
  htmltools      0.5.3   2022-07-18 [1] CRAN (R 4.2.0)
@@ -1372,6 +1778,7 @@ iframe {
  rmarkdown      2.18    2022-11-09 [1] CRAN (R 4.2.0)
  rstudioapi     0.14    2022-08-22 [1] CRAN (R 4.2.0)
  rvest        * 1.0.3   2022-08-19 [1] CRAN (R 4.2.0)
+ sass           0.4.2   2022-07-16 [1] CRAN (R 4.2.0)
  scales         1.2.1   2022-08-20 [1] CRAN (R 4.2.0)
  selectr        0.4-2   2019-11-20 [1] CRAN (R 4.2.0)
  sessioninfo    1.2.2   2021-12-06 [1] CRAN (R 4.2.0)

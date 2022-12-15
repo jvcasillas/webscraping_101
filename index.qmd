@@ -424,7 +424,6 @@ Who is the leading scorer?
 #| out.width: "100%"
 #| code-fold: true
 
-
 suns_per_game %>% 
   left_join(., img_urls, by = "athlete") %>% 
   mutate(athlete = fct_reorder(athlete, `PTS/G`, max)) %>% 

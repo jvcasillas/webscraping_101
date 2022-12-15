@@ -34,6 +34,7 @@ library("kableExtra")
 library("gt")
 library("janitor")
 library("ggimage")
+library("glue")
 
 # Set cleaner plotting theme
 theme_set(theme_bw())
@@ -271,7 +272,8 @@ threes <- url_nba %>%
   separate(value, into = c("year", "athlete", "city"), sep = "\\|") %>% 
   separate(athlete, into = c("athlete", "team"), sep = "\\(") %>% 
   mutate(team = str_remove_all(team, "\\)")) %>% 
-  mutate(across(everything(), str_trim)) 
+  mutate(across(everything(), str_trim)) %>% 
+  mutate(team = if_else(team %in% c("Cavs", "Cavaliers"), "Cavaliers", .$team))
 
 threes
 ```
@@ -297,17 +299,60 @@ Which player has won the most three point titles?
 ```{r}
 #| label: three-winners-athlete
 #| out.width: "100%"
+#| fig.height: 8
 #| code-fold: true
+
+team_imgs <- tribble(
+  ~"abv", ~"team", 
+  "BOS", "Celtics", 
+  "MIL", "Bucks", 
+  "CLE", "Cavaliers", 
+  "BRK", "Nets", 
+  "PHI", "76ers", 
+  "NYK", "Knicks", 
+  "ATL", "Hawks", 
+  "IND", "Pacers", 
+  "TOR", "Raptors", 
+  "MIA", "Heat", 
+  "CHI", "Bulls", 
+  "WAS", "Wizards", 
+  "ORL", "Magic", 
+  "CHO", "Hornets", 
+  "DET", "Pistons", 
+  "NOP", "Pelicans", 
+  "MEM", "Grizzlies", 
+  "DEN", "Nuggets", 
+  "PHO", "Suns", 
+  "POR", "Trail Blazers", 
+  "LAC", "Clippers", 
+  "SAC", "Kings", 
+  "UTA", "Jazz", 
+  "DAL", "Mavs", 
+  "GSW", "Warriors", 
+  "MIN", "Timberwolves", 
+  "LAL", "Lakers", 
+  "OKC", "Thunder", 
+  "SAS", "Spurs", 
+  "HOU", "Rockets", 
+  "SEA", "Sonics"
+  ) %>% 
+  mutate(
+    url = glue("https://cdn.ssref.net/req/202212072/tlogo/bbr/{abv}-2023.png"), 
+    url = str_replace(url, "SEA-2023", "SEA-1993"), 
+    url_i = glue("<img src='{url}' width='15'/><br>*{team}*"))
+
 threes %>% 
-  group_by(athlete) %>% 
+  group_by(athlete, team) %>% 
   count() %>% 
   ungroup() %>% 
+  left_join(., team_imgs, by = "team") %>% 
   mutate(athlete = fct_reorder(athlete, n, max)) %>% 
   ggplot(., aes(x = n, y = athlete)) + 
     geom_segment(aes(x = 0, xend = n, yend = athlete), linewidth = 1) + 
-    geom_point(size = 3, pch = 21, fill = "white") + 
+    geom_image(aes(image = url), size = 0.03) + 
     labs(x = "N", y = "Athlete", 
          title = "Athletes with most three-point contest wins")
+
 ```
 
 Apparently most winners don't repeat. 
@@ -318,19 +363,27 @@ Which team has had the most winners?
 ```{r}
 #| label: three-winners-team
 #| out.width: "100%"
+#| fig.height: 4
 #| code-fold: true
+#| column: page-inset-left
+
 threes %>% 
   group_by(team) %>% 
   count() %>% 
   ungroup() %>% 
-  mutate(team = fct_reorder(team, n, max)) %>% 
-  ggplot(., aes(x = n, y = team)) + 
-    geom_segment(aes(x = 0, xend = n, yend = team), linewidth = 1) + 
-    geom_point(size = 3, pch = 21, fill = "white") + 
-    labs(x = "N", y = "Team", 
-         title = "Teams with most three-point contest wins")
+  left_join(., team_imgs, by = "team") %>% 
+  mutate(url_i = str_replace(url_i, "Timberwolves", "Wolves"), 
+    url_i = fct_reorder(url_i, n)) %>%
+  ggplot(., aes(x = url_i, y = n)) + 
+    geom_segment(aes(xend = url_i, y = 0, yend = n), linewidth = 1) + 
+    geom_point(pch = 21, fill = "white", size = 3, stroke = 0.75) + 
+    labs(x = "Team", y = "N", 
+         title = "Teams with most three-point contest wins") +
+    theme(axis.text.x = ggtext::element_markdown(color = "black", size = 6))
+
 ```
 
+Notably absent from the winners... the lakers. 
 Ok. 
 So, we have covered scraping text from (slightly) more complicated websites. 
 Now we will look at scraping tables. 

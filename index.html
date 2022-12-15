@@ -173,15 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gt"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggimage"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cleaner plotting theme</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>),</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"glue"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cleaner plotting theme</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_update</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">9</span>), <span class="at">hjust =</span> <span class="fl">0.95</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">'grey90'</span>, <span class="at">linewidth =</span> <span class="fl">0.15</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The important one of the group is <code>rvest</code>. This package provides several functions we’ll use to obtain html and parse it to text. Then we can do whatever we want with it, like put it in a dataframe.</p>
 </section>
@@ -415,9 +416,10 @@ iframe {
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(value, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"athlete"</span>, <span class="st">"city"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">|"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(athlete, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"athlete"</span>, <span class="st">"team"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">("</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> <span class="fu">str_remove_all</span>(team, <span class="st">"</span><span class="sc">\\</span><span class="st">)"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), str_trim)) </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>threes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), str_trim)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> <span class="fu">if_else</span>(team <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Cavs"</span>, <span class="st">"Cavaliers"</span>), <span class="st">"Cavaliers"</span>, .<span class="sc">$</span>team))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>threes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 36 × 4
    year  athlete            team         city         
@@ -623,13 +625,13 @@ iframe {
   <tr>
    <td style="text-align:left;"> 1994 </td>
    <td style="text-align:left;"> Mark Price </td>
-   <td style="text-align:left;"> Cavs </td>
+   <td style="text-align:left;"> Cavaliers </td>
    <td style="text-align:left;"> Minnesota </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 1993 </td>
    <td style="text-align:left;"> Mark Price </td>
-   <td style="text-align:left;"> Cavs </td>
+   <td style="text-align:left;"> Cavaliers </td>
    <td style="text-align:left;"> Salt Lake City </td>
   </tr>
   <tr>
@@ -684,16 +686,56 @@ iframe {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(athlete) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, n, max)) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> n, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>, </span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Athletes with most three-point contest wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>team_imgs <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span><span class="st">"abv"</span>, <span class="sc">~</span><span class="st">"team"</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BOS"</span>, <span class="st">"Celtics"</span>, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MIL"</span>, <span class="st">"Bucks"</span>, </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CLE"</span>, <span class="st">"Cavaliers"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BRK"</span>, <span class="st">"Nets"</span>, </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"PHI"</span>, <span class="st">"76ers"</span>, </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NYK"</span>, <span class="st">"Knicks"</span>, </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ATL"</span>, <span class="st">"Hawks"</span>, </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IND"</span>, <span class="st">"Pacers"</span>, </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"TOR"</span>, <span class="st">"Raptors"</span>, </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MIA"</span>, <span class="st">"Heat"</span>, </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CHI"</span>, <span class="st">"Bulls"</span>, </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WAS"</span>, <span class="st">"Wizards"</span>, </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ORL"</span>, <span class="st">"Magic"</span>, </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CHO"</span>, <span class="st">"Hornets"</span>, </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DET"</span>, <span class="st">"Pistons"</span>, </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"NOP"</span>, <span class="st">"Pelicans"</span>, </span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MEM"</span>, <span class="st">"Grizzlies"</span>, </span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DEN"</span>, <span class="st">"Nuggets"</span>, </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"PHO"</span>, <span class="st">"Suns"</span>, </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"POR"</span>, <span class="st">"Trail Blazers"</span>, </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LAC"</span>, <span class="st">"Clippers"</span>, </span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAC"</span>, <span class="st">"Kings"</span>, </span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"UTA"</span>, <span class="st">"Jazz"</span>, </span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAL"</span>, <span class="st">"Mavs"</span>, </span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GSW"</span>, <span class="st">"Warriors"</span>, </span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MIN"</span>, <span class="st">"Timberwolves"</span>, </span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"LAL"</span>, <span class="st">"Lakers"</span>, </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OKC"</span>, <span class="st">"Thunder"</span>, </span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAS"</span>, <span class="st">"Spurs"</span>, </span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"HOU"</span>, <span class="st">"Rockets"</span>, </span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SEA"</span>, <span class="st">"Sonics"</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">url =</span> <span class="fu">glue</span>(<span class="st">"https://cdn.ssref.net/req/202212072/tlogo/bbr/{abv}-2023.png"</span>), </span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">url =</span> <span class="fu">str_replace</span>(url, <span class="st">"SEA-2023"</span>, <span class="st">"SEA-1993"</span>), </span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">url_i =</span> <span class="fu">glue</span>(<span class="st">"&lt;img src='{url}' width='15'/&gt;&lt;br&gt;*{team}*"</span>))</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(athlete, team) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., team_imgs, <span class="at">by =</span> <span class="st">"team"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">athlete =</span> <span class="fu">fct_reorder</span>(athlete, n, max)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> athlete)) <span class="sc">+</span> </span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> n, <span class="at">yend =</span> athlete), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_image</span>(<span class="fu">aes</span>(<span class="at">image =</span> url), <span class="at">size =</span> <span class="fl">0.03</span>) <span class="sc">+</span> </span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"Athlete"</span>, </span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Athletes with most three-point contest wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/three-winners-athlete-1.png" class="img-fluid" style="width:100.0%"></p>
@@ -701,25 +743,28 @@ iframe {
 </div>
 <p>Apparently most winners don’t repeat. It looks like 4 players have won twice and only Larry Bird and Craig Hodges have won three times!</p>
 <p>Which team has had the most winners?</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threes <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(team) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> <span class="fu">fct_reorder</span>(team, n, max)) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> team)) <span class="sc">+</span> </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> n, <span class="at">yend =</span> team), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"Team"</span>, </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Teams with most three-point contest wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., team_imgs, <span class="at">by =</span> <span class="st">"team"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">url_i =</span> <span class="fu">str_replace</span>(url_i, <span class="st">"Timberwolves"</span>, <span class="st">"Wolves"</span>), </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">url_i =</span> <span class="fu">fct_reorder</span>(url_i, n)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> url_i, <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> url_i, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> n), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">stroke =</span> <span class="fl">0.75</span>) <span class="sc">+</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Team"</span>, <span class="at">y =</span> <span class="st">"N"</span>, </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Teams with most three-point contest wins"</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
+<div class="cell-output-display column-page-inset-left">
 <p><img src="index_files/figure-html/three-winners-team-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<p>Ok. So, we have covered scraping text from (slightly) more complicated websites. Now we will look at scraping tables.</p>
+<p>Notably absent from the winners… the lakers. Ok. So, we have covered scraping text from (slightly) more complicated websites. Now we will look at scraping tables.</p>
 </section>
 </section>
 <section id="scraping-tables" class="level2 page-columns page-full">
@@ -787,12 +832,12 @@ iframe {
 </details>
 <div class="cell-output-display">
 
-<div id="wgazdcodmx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="keurqplngl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#wgazdcodmx) .gt_table {
+:where(#keurqplngl) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -817,7 +862,7 @@ iframe {
   border-left-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_heading {
+:where(#keurqplngl) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -829,12 +874,12 @@ iframe {
   border-right-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_caption {
+:where(#keurqplngl) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#wgazdcodmx) .gt_title {
+:where(#keurqplngl) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -846,7 +891,7 @@ iframe {
   border-bottom-width: 0;
 }
 
-:where(#wgazdcodmx) .gt_subtitle {
+:where(#keurqplngl) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -858,13 +903,13 @@ iframe {
   border-top-width: 0;
 }
 
-:where(#wgazdcodmx) .gt_bottom_border {
+:where(#keurqplngl) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_col_headings {
+:where(#keurqplngl) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -879,7 +924,7 @@ iframe {
   border-right-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_col_heading {
+:where(#keurqplngl) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -899,7 +944,7 @@ iframe {
   overflow-x: hidden;
 }
 
-:where(#wgazdcodmx) .gt_column_spanner_outer {
+:where(#keurqplngl) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -911,15 +956,15 @@ iframe {
   padding-right: 4px;
 }
 
-:where(#wgazdcodmx) .gt_column_spanner_outer:first-child {
+:where(#keurqplngl) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#wgazdcodmx) .gt_column_spanner_outer:last-child {
+:where(#keurqplngl) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#wgazdcodmx) .gt_column_spanner {
+:where(#keurqplngl) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -931,7 +976,7 @@ iframe {
   width: 100%;
 }
 
-:where(#wgazdcodmx) .gt_group_heading {
+:where(#keurqplngl) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -957,7 +1002,7 @@ iframe {
   text-align: left;
 }
 
-:where(#wgazdcodmx) .gt_empty_group_heading {
+:where(#keurqplngl) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -972,15 +1017,15 @@ iframe {
   vertical-align: middle;
 }
 
-:where(#wgazdcodmx) .gt_from_md > :first-child {
+:where(#keurqplngl) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#wgazdcodmx) .gt_from_md > :last-child {
+:where(#keurqplngl) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#wgazdcodmx) .gt_row {
+:where(#keurqplngl) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -999,7 +1044,7 @@ iframe {
   overflow-x: hidden;
 }
 
-:where(#wgazdcodmx) .gt_stub {
+:where(#keurqplngl) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1012,7 +1057,7 @@ iframe {
   padding-right: 5px;
 }
 
-:where(#wgazdcodmx) .gt_stub_row_group {
+:where(#keurqplngl) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,11 +1071,11 @@ iframe {
   vertical-align: top;
 }
 
-:where(#wgazdcodmx) .gt_row_group_first td {
+:where(#keurqplngl) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#wgazdcodmx) .gt_summary_row {
+:where(#keurqplngl) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1040,16 +1085,16 @@ iframe {
   padding-right: 5px;
 }
 
-:where(#wgazdcodmx) .gt_first_summary_row {
+:where(#keurqplngl) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_first_summary_row.thick {
+:where(#keurqplngl) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#wgazdcodmx) .gt_last_summary_row {
+:where(#keurqplngl) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1059,7 +1104,7 @@ iframe {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_grand_summary_row {
+:where(#keurqplngl) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1069,7 +1114,7 @@ iframe {
   padding-right: 5px;
 }
 
-:where(#wgazdcodmx) .gt_first_grand_summary_row {
+:where(#keurqplngl) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1079,11 +1124,11 @@ iframe {
   border-top-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_striped {
+:where(#keurqplngl) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#wgazdcodmx) .gt_table_body {
+:where(#keurqplngl) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1092,7 +1137,7 @@ iframe {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_footnotes {
+:where(#keurqplngl) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1106,7 +1151,7 @@ iframe {
   border-right-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_footnote {
+:where(#keurqplngl) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1115,7 +1160,7 @@ iframe {
   padding-right: 5px;
 }
 
-:where(#wgazdcodmx) .gt_sourcenotes {
+:where(#keurqplngl) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1129,7 +1174,7 @@ iframe {
   border-right-color: #D3D3D3;
 }
 
-:where(#wgazdcodmx) .gt_sourcenote {
+:where(#keurqplngl) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1137,64 +1182,64 @@ iframe {
   padding-right: 5px;
 }
 
-:where(#wgazdcodmx) .gt_left {
+:where(#keurqplngl) .gt_left {
   text-align: left;
 }
 
-:where(#wgazdcodmx) .gt_center {
+:where(#keurqplngl) .gt_center {
   text-align: center;
 }
 
-:where(#wgazdcodmx) .gt_right {
+:where(#keurqplngl) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#wgazdcodmx) .gt_font_normal {
+:where(#keurqplngl) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#wgazdcodmx) .gt_font_bold {
+:where(#keurqplngl) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#wgazdcodmx) .gt_font_italic {
+:where(#keurqplngl) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#wgazdcodmx) .gt_super {
+:where(#keurqplngl) .gt_super {
   font-size: 65%;
 }
 
-:where(#wgazdcodmx) .gt_footnote_marks {
+:where(#keurqplngl) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#wgazdcodmx) .gt_asterisk {
+:where(#keurqplngl) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#wgazdcodmx) .gt_indent_1 {
+:where(#keurqplngl) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#wgazdcodmx) .gt_indent_2 {
+:where(#keurqplngl) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#wgazdcodmx) .gt_indent_3 {
+:where(#keurqplngl) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#wgazdcodmx) .gt_indent_4 {
+:where(#keurqplngl) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#wgazdcodmx) .gt_indent_5 {
+:where(#keurqplngl) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1714,7 +1759,7 @@ iframe {
 <h2 class="anchored" data-anchor-id="wrapping-up">Wrapping up</h2>
 <p>That seems like enough for now. The main takeaway is that <code>rvest</code> makes it quite easy to scrape data from a website. Knowing a bit of html is certainly helpful, but it’s not a dealbreaker if you don’t.</p>
 <hr>
-<p>Last update: 2022-12-14.</p>
+<p>Last update: 2022-12-15.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sessioninfo<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1728,7 +1773,7 @@ iframe {
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       America/New_York
- date     2022-12-14
+ date     2022-12-15
  pandoc   2.19.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────
@@ -1736,6 +1781,7 @@ iframe {
  assertthat     0.2.1   2019-03-21 [1] CRAN (R 4.2.0)
  cli            3.4.1   2022-09-23 [1] CRAN (R 4.2.0)
  colorspace     2.0-3   2022-02-21 [1] CRAN (R 4.2.0)
+ commonmark     1.8.1   2022-10-14 [1] CRAN (R 4.2.1)
  curl           4.3.3   2022-10-06 [1] CRAN (R 4.2.0)
  DBI            1.1.3   2022-06-18 [1] CRAN (R 4.2.0)
  digest         0.6.30  2022-10-18 [1] CRAN (R 4.2.0)
@@ -1751,8 +1797,10 @@ iframe {
  ggimage      * 0.3.1   2022-04-25 [1] CRAN (R 4.2.0)
  ggplot2      * 3.4.0   2022-11-04 [1] CRAN (R 4.2.0)
  ggplotify      0.1.0   2021-09-02 [1] CRAN (R 4.2.0)
- glue           1.6.2   2022-02-24 [1] CRAN (R 4.2.0)
+ ggtext         0.1.2   2022-09-16 [1] CRAN (R 4.2.0)
+ glue         * 1.6.2   2022-02-24 [1] CRAN (R 4.2.0)
  gridGraphics   0.5-1   2020-12-13 [1] CRAN (R 4.2.0)
+ gridtext       0.1.5   2022-09-16 [1] CRAN (R 4.2.0)
  gt           * 0.8.0   2022-11-16 [1] CRAN (R 4.2.0)
  gtable         0.3.1   2022-09-01 [1] CRAN (R 4.2.0)
  highr          0.9     2021-04-16 [1] CRAN (R 4.2.0)
@@ -1768,9 +1816,11 @@ iframe {
  lubridate      1.9.0   2022-11-06 [1] CRAN (R 4.2.0)
  magick         2.7.3   2021-08-18 [1] CRAN (R 4.2.0)
  magrittr       2.0.3   2022-03-30 [1] CRAN (R 4.2.0)
+ markdown       1.4     2022-11-16 [1] CRAN (R 4.2.1)
  munsell        0.5.0   2018-06-12 [1] CRAN (R 4.2.0)
  pillar         1.8.1   2022-08-19 [1] CRAN (R 4.2.0)
  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.2.0)
+ png            0.1-8   2022-11-29 [1] CRAN (R 4.2.0)
  purrr          0.3.5   2022-10-06 [1] CRAN (R 4.2.0)
  R6             2.5.1   2021-08-19 [1] CRAN (R 4.2.0)
  Rcpp           1.0.9   2022-07-08 [1] CRAN (R 4.2.0)
